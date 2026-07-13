@@ -155,11 +155,18 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
     .header__nav { border-top: var(--hairline) solid var(--c-sage); }
     #menu-principal {
       display: flex;
-      gap: var(--space-xs) var(--space-xl);
-      justify-content: center;
+      gap: var(--space-xs) var(--space-md);
+      /* Justifiée sur la largeur du conteneur : « Accueil » à l'aplomb du
+         logo, « Contact » à l'aplomb du bouton d'appel. */
+      justify-content: space-between;
       flex-wrap: wrap;
       padding-block: var(--space-2xs);
+      /* La liste EST le .container : padding identique à la ligne du logo */
+      padding-inline: var(--space-xl);
     }
-    .header__list a { min-height: 44px; }
+    .header__list a {
+      min-height: 44px;
+      padding-inline: 0; /* le texte s'aligne exactement sur la grille */
+    }
   }
 </style>
