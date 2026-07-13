@@ -1,0 +1,160 @@
+---
+/**
+ * Header — logo (→ accueil) + navigation simple + bouton « Appelez-moi ».
+ * Fond papier, filets d'encre fins. Menu au CLIC uniquement (jamais au
+ * survol), pliable sur mobile (CLAUDE.md §4 & §5).
+ */
+import CallButton from './CallButton.astro';
+import { site } from '../site';
+
+const nav = [
+  { href: '/', label: 'Accueil' },
+  { href: '/le-metier', label: 'Le métier' },
+  { href: '/prestations', label: 'Prestations' },
+  { href: '/le-cabinet', label: 'Le cabinet' },
+  { href: '/realisations', label: 'Réalisations' },
+  { href: '/questions-frequentes', label: 'Questions fréquentes' },
+  { href: '/contact', label: 'Contact' },
+];
+
+// Chemin courant (pour aria-current), normalisé sans slash final.
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+---
+
+<header class="header">
+  <div class="container header__bar">
+    <a href="/" class="header__logo" aria-label={`${site.nom} — accueil`}>
+      <img src="/logo.svg" width="216" height="50" alt={`${site.nom} — ${site.baseline}`} />
+    </a>
+
+    <div class="header__actions">
+      <CallButton variant="solid" showNumber={true} class="header__call" />
+      <button
+        type="button"
+        class="header__toggle btn btn--outline"
+        aria-expanded="false"
+        aria-controls="menu-principal"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M3 6h18v2H3V6Zm0 5h18v2H3v-2Zm0 5h18v2H3v-2Z" />
+        </svg>
+        <span>Menu</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="header__nav" aria-label="Navigation principale">
+    <ul id="menu-principal" class="header__list container">
+      {nav.map((item) => {
+        const itemPath = item.href.replace(/\/+$/, '') || '/';
+        const current = itemPath === path;
+        return (
+          <li>
+            <a href={item.href} aria-current={current ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  // Menu au CLIC (aucun comportement au survol). Pliable, accessible clavier.
+  const toggle = document.querySelector<HTMLButtonElement>('.header__toggle');
+  const menu = document.getElementById('menu-principal');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      menu.classList.toggle('is-open', !open);
+    });
+  }
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--c-paper);
+    border-bottom: var(--hairline) solid var(--c-ink);
+  }
+
+  .header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding-block: var(--space-md);
+  }
+
+  .header__logo { display: inline-flex; flex-shrink: 0; }
+  .header__logo img { width: auto; height: 42px; }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-shrink: 0;
+  }
+
+  /* .header__call est rendu par CallButton → cibler en :global */
+  :global(.header__call) { white-space: nowrap; }
+
+  .header__toggle { padding-inline: var(--space-md); }
+
+  /* Mobile : le CTA d'appel vit dans la barre fixe du bas → header épuré */
+  @media (max-width: 61.999rem) {
+    :global(.header__call) { display: none; }
+  }
+
+  /* --- Navigation --- */
+  .header__list {
+    list-style: none;
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+  .header__list a {
+    min-height: var(--tap-min);
+    display: flex;
+    align-items: center;
+    padding: var(--space-xs) var(--space-2xs);
+    text-decoration: none;
+    font-weight: 400;
+  }
+  .header__list a:hover { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1.5px; }
+  .header__list a[aria-current="page"] {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
+  }
+
+  /* --- Mobile : menu replié par défaut --- */
+  @media (max-width: 61.999rem) {
+    .header__nav { border-top: var(--hairline) solid var(--c-sage); }
+    #menu-principal {
+      display: none;
+      flex-direction: column;
+      padding-block: var(--space-xs);
+    }
+    #menu-principal.is-open { display: flex; }
+    #menu-principal li + li { border-top: var(--hairline) solid var(--c-sage); }
+    .header__list a { font-size: var(--fs-lead); font-weight: 400; }
+  }
+
+  /* --- Desktop : nav horizontale, toggle caché --- */
+  @media (min-width: 62rem) {
+    .header__toggle { display: none; }
+    .header__bar { padding-block: var(--space-sm); }
+    #menu-principal {
+      display: flex;
+      gap: var(--space-lg);
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      padding-block: 0 var(--space-sm);
+    }
+  }
+</style>

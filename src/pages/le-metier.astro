@@ -1,0 +1,210 @@
+---
+/**
+ * Le métier — expliquer ce qu'est un écrivain public, à qui ça s'adresse,
+ * comment ça se passe. Lever les freins (CLAUDE.md §5).
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaFinal from '../components/CtaFinal.astro';
+import metierEcoute from '../assets/metier-ecoute.png';
+---
+
+<BaseLayout
+  title="Le métier d'écrivain public — Prête moi ta plume"
+  description="Un écrivain public écrit pour vous et avec vous : courriers, récits, démarches. Découvrez un métier de confiance, à Saint-Vallier-de-Thiey."
+>
+  <PageHeader eyebrow="Le métier" title="Écrivain public, un métier à votre service">
+    <p>
+      Depuis toujours, l'écrivain public prête sa plume à ceux qui en ont
+      besoin. Le métier n'a pas changé&nbsp;: écouter, comprendre, puis écrire
+      juste.
+    </p>
+  </PageHeader>
+
+  <!-- Qu'est-ce qu'un écrivain public -->
+  <section class="section metier-def">
+    <div class="container metier-def__grid">
+      <div class="prose">
+        <h2>Écrire pour vous, avec vous</h2>
+        <p>
+          Un écrivain public rédige à votre place ce que vous n'avez pas le
+          temps, l'envie ou la facilité d'écrire vous-même. Une lettre à
+          l'administration, une réclamation, l'histoire de votre vie, un
+          discours pour un mariage&nbsp;: si les mots comptent, nous sommes là.
+        </p>
+        <p>
+          Vous restez l'auteur. Nous posons les questions, nous écoutons, et
+          nous mettons en forme. Rien ne part sans votre accord&nbsp;: chaque
+          texte est relu avec vous, mot à mot, jusqu'à ce qu'il vous ressemble.
+        </p>
+      </div>
+      <div class="metier-def__media">
+        <Image
+          src={metierEcoute}
+          alt="Une écrivaine publique tend une feuille vierge à une personne âgée, autour d'une tisane"
+          widths={[480, 760, 1086, 1448]}
+          sizes="(min-width: 62rem) 44vw, calc(100vw - 3rem)"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- À qui ça s'adresse -->
+  <section class="section on-sage">
+    <div class="container">
+      <h2>À qui ça s'adresse</h2>
+      <p class="metier-intro">À tout le monde. Voici les situations que nous rencontrons le plus souvent&nbsp;:</p>
+      <div class="cards">
+        <article class="card stack">
+          <h3>Vous êtes face à un courrier difficile</h3>
+          <p>
+            Une lettre officielle à écrire, un dossier à constituer, une
+            réponse qui vous inquiète. Nous démêlons la situation et nous
+            écrivons ce qu'il faut, comme il faut.
+          </p>
+        </article>
+        <article class="card stack">
+          <h3>Vous voulez transmettre votre histoire</h3>
+          <p>
+            Vos souvenirs, votre parcours, la mémoire d'une famille. Nous les
+            recueillons lors d'entretiens tranquilles, puis nous les écrivons
+            pour ceux qui viendront après.
+          </p>
+        </article>
+        <article class="card stack">
+          <h3>Vous aidez un proche</h3>
+          <p>
+            Un parent qui n'y arrive plus, un voisin isolé face à ses papiers.
+            Vous pouvez appeler pour lui&nbsp;: nous prenons le relais avec
+            douceur et patience.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comment ça se passe — vraie séquence, donc numérotation légitime -->
+  <section class="section">
+    <div class="container">
+      <h2>Comment ça se passe</h2>
+      <ol class="steps">
+        <li class="steps__item">
+          <h3>Vous appelez</h3>
+          <p>
+            Vous racontez votre situation, avec vos mots. Ce premier échange
+            est gratuit et sans engagement&nbsp;: il sert à comprendre ce dont
+            vous avez besoin.
+          </p>
+        </li>
+        <li class="steps__item">
+          <h3>Nous nous rencontrons</h3>
+          <p>
+            Au cabinet, chez vous ou à distance, selon ce qui vous arrange.
+            Nous écoutons, nous posons des questions, nous prenons le temps.
+          </p>
+        </li>
+        <li class="steps__item">
+          <h3>Nous écrivons</h3>
+          <p>
+            Le texte prend forme. Vous le relisez, vous corrigez, vous
+            validez&nbsp;: rien ne part sans votre accord.
+          </p>
+        </li>
+        <li class="steps__item">
+          <h3>Vous repartez avec un texte prêt</h3>
+          <p>
+            Courrier à poster, dossier à déposer, récit à offrir&nbsp;: vous
+            savez exactement quoi en faire, et nous restons joignables.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Confidentialité -->
+  <section class="section on-ink">
+    <div class="container prose">
+      <h2>Ce que vous nous confiez reste entre nous</h2>
+      <p>
+        La confidentialité n'est pas une option, c'est la base du métier.
+        Vos courriers, vos documents et votre histoire ne sont jamais montrés,
+        jamais partagés, jamais réutilisés. Jamais.
+      </p>
+    </div>
+  </section>
+
+  <CtaFinal title="Et si on en parlait ?">
+    Un doute sur ce que nous pouvons faire pour vous&nbsp;? Appelez&nbsp;:
+    en quelques minutes, vous saurez.
+  </CtaFinal>
+</BaseLayout>
+
+<style>
+  .metier-def { padding-top: 0; }
+
+  .metier-def__grid {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+  @media (min-width: 62rem) {
+    .metier-def__grid { grid-template-columns: 1.1fr 0.9fr; gap: var(--space-2xl); }
+  }
+  .metier-def__media :global(img) {
+    border: var(--hairline) solid var(--c-ink);
+    border-radius: var(--radius-card);
+    width: 100%;
+    height: auto;
+  }
+
+  .metier-intro {
+    margin-top: var(--space-sm);
+    max-width: 50ch;
+  }
+
+  .cards {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+    margin-top: var(--space-xl);
+  }
+  @media (min-width: 40rem) {
+    .cards { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  }
+
+  /* Étapes numérotées — la numérotation encode une vraie chronologie */
+  .steps {
+    list-style: none;
+    counter-reset: etape;
+    padding: 0;
+    margin-top: var(--space-xl);
+    display: grid;
+    gap: var(--space-xl);
+  }
+  .steps__item {
+    counter-increment: etape;
+    position: relative;
+    padding-left: 4.25rem;
+    max-width: 34rem;
+  }
+  .steps__item::before {
+    content: counter(etape);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--c-paper);
+    background: var(--c-ink);
+    border-radius: 50%;
+  }
+  .steps__item h3 { margin-bottom: var(--space-xs); }
+</style>

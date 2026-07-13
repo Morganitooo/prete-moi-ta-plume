@@ -1,0 +1,144 @@
+---
+/**
+ * Réalisations — TÉMOIGNAGES CLIENTS UNIQUEMENT (avec accord écrit).
+ * Aucun courrier privé, aucun document montré — confidentialité absolue
+ * (CLAUDE.md §5). Témoignages réels à fournir par la cliente. [À COMPLÉTER]
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaFinal from '../components/CtaFinal.astro';
+import lettresNouees from '../assets/realisations-lettres.png';
+
+// [À COMPLÉTER] Remplacer par les témoignages réels, avec accord écrit.
+// Format : { texte, signature } — signature discrète (prénom, commune).
+const temoignages: { texte: string; signature: string }[] = [];
+---
+
+<BaseLayout
+  title="Témoignages de clients — Prête moi ta plume"
+  description="Ce que nos clients disent de notre travail d'écrivain public à Saint-Vallier-de-Thiey. Témoignages publiés avec leur accord — et rien d'autre."
+>
+  <PageHeader eyebrow="Réalisations" title="Ce qu'ils en disent">
+    <p>
+      Nous ne montrons jamais ce que nous écrivons pour vous&nbsp;: pas de
+      courrier en vitrine, pas d'exemple tiré d'un dossier. Ici, seules
+      parlent les personnes qui ont choisi de témoigner.
+    </p>
+  </PageHeader>
+
+  <!-- Témoignages — feuilles sur bande sauge, lettres nouées en regard -->
+  <section class="section on-sage temoignages">
+    <div class="container temoignages-scene">
+      <div>
+        {temoignages.length > 0 ? (
+          <div class="temoignages-grid">
+            {temoignages.map((t) => (
+              <figure class="card temoignage">
+                <blockquote>
+                  <p>«&nbsp;{t.texte}&nbsp;»</p>
+                </blockquote>
+                <figcaption>— {t.signature}</figcaption>
+              </figure>
+            ))}
+          </div>
+        ) : (
+          <div class="card temoignages-attente prose">
+            <h2>Les premiers témoignages arrivent</h2>
+            <p>
+              Cette page accueillera les mots de nos clients, publiés avec leur
+              accord écrit — et uniquement avec leur accord.
+              <!-- [À COMPLÉTER] témoignages clients -->
+            </p>
+            <p>
+              En attendant, le plus simple pour vous faire une idée&nbsp;:
+              appelez-nous. Cinq minutes de conversation en disent plus qu'une
+              page de compliments.
+            </p>
+          </div>
+        )}
+      </div>
+      <div class="temoignages-media">
+        <Image
+          src={lettresNouees}
+          alt="Un paquet de lettres vierges nouées d'une ficelle, posé sur le bureau près d'un porte-plume"
+          widths={[480, 760, 1086, 1448]}
+          sizes="(min-width: 62rem) 44vw, calc(100vw - 3rem)"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Le principe de confidentialité, réaffirmé -->
+  <section class="section on-ink">
+    <div class="container prose">
+      <h2>Pourquoi si peu d'exemples&nbsp;?</h2>
+      <p>
+        Parce que ce que nous écrivons vous appartient. Votre courrier, votre
+        récit, votre dossier ne serviront jamais de publicité. C'est la
+        condition pour que vous puissiez tout nous confier.
+      </p>
+    </div>
+  </section>
+
+  <CtaFinal title="Faites-vous votre propre idée">
+    Le premier échange vaut tous les témoignages&nbsp;: appelez, posez vos
+    questions, et jugez sur pièce.
+  </CtaFinal>
+</BaseLayout>
+
+<style>
+  .temoignages-scene {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+  @media (min-width: 62rem) {
+    .temoignages-scene { grid-template-columns: 1.1fr 0.9fr; gap: var(--space-2xl); }
+  }
+  /* La photo, posée comme une feuille (même traitement que les autres pages) */
+  .temoignages-media :global(img) {
+    border: var(--hairline) solid var(--c-ink);
+    border-radius: var(--radius-card);
+    width: 100%;
+    height: auto;
+  }
+
+  .temoignages-grid {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 40rem) {
+    .temoignages-grid { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+  }
+
+  .temoignage blockquote p {
+    font-family: var(--font-title);
+    font-size: var(--fs-lead);
+    line-height: 1.4;
+  }
+  .temoignage figcaption {
+    margin-top: var(--space-md);
+    font-weight: 700;
+  }
+
+  /* Grand guillemet Fraunces en tête de carte — la place des mots à venir */
+  .temoignages-attente {
+    max-width: 38rem;
+    position: relative;
+    padding-top: var(--space-2xl);
+  }
+  .temoignages-attente::before {
+    content: '«';
+    position: absolute;
+    top: -0.12em;
+    left: var(--space-lg);
+    font-family: var(--font-title);
+    font-size: 6rem;
+    line-height: 1;
+    color: var(--c-sage);
+    pointer-events: none;
+  }
+</style>

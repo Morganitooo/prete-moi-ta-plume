@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://prete-moi-ta-plume.fr/sitemap-index.xml

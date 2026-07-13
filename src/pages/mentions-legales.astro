@@ -1,0 +1,48 @@
+---
+/**
+ * Mentions légales — OBLIGATOIRES avant mise en ligne. Contenu à compléter
+ * avec les informations de la cliente (identité, hébergeur, SIRET…).
+ * [À COMPLÉTER] — ne pas publier le site sans cette page finalisée.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../site';
+---
+
+<BaseLayout
+  title="Mentions légales — Prête moi ta plume"
+  description="Mentions légales du site Prête moi ta plume, écrivain public à Saint-Vallier-de-Thiey."
+  noindex={true}
+>
+  <PageHeader title="Mentions légales">
+    <p>Les informations légales relatives à ce site.</p>
+  </PageHeader>
+
+  <section class="section legal">
+    <div class="container prose">
+      <h2>Éditeur du site</h2>
+      <p>
+        {site.nom} — [À COMPLÉTER&nbsp;: nom / raison sociale, statut, SIRET]<br />
+        {site.adresse.codePostal} {site.adresse.ville}<br />
+        Téléphone&nbsp;: {site.tel.affiche}
+      </p>
+
+      <h2>Directeur de la publication</h2>
+      <p>[À COMPLÉTER]</p>
+
+      <h2>Hébergement</h2>
+      <p>[À COMPLÉTER&nbsp;: nom, adresse et téléphone de l'hébergeur]</p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        L'ensemble du contenu de ce site (textes, images, logo) est la
+        propriété de {site.nom}, sauf mention contraire. Toute reproduction
+        sans autorisation est interdite.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal { padding-top: 0; }
+</style>

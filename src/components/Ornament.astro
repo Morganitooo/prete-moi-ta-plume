@@ -1,0 +1,31 @@
+---
+/**
+ * Ornament — fleuron de chapitre : un trait de plume centré, comme dans un
+ * livre. Purement décoratif (aria-hidden). Couleur : encre par défaut,
+ * hérite de currentColor sur fond sombre.
+ */
+---
+
+<div class="ornament" aria-hidden="true">
+  <svg viewBox="0 0 140 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M6 11 C 30 4, 52 15, 70 9 C 88 3, 112 14, 134 7"
+      stroke="currentColor"
+      stroke-width="2.4"
+      stroke-linecap="round"
+    />
+    <circle cx="70" cy="9" r="2.2" fill="currentColor" />
+  </svg>
+</div>
+
+<style>
+  .ornament {
+    display: flex;
+    justify-content: center;
+    color: var(--c-ink);
+  }
+  .ornament svg {
+    width: 120px;
+    height: auto;
+  }
+</style>

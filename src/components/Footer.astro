@@ -1,0 +1,144 @@
+---
+/**
+ * Footer — NAP complet, téléphone en avant, zone d'intervention, navigation,
+ * mentions légales (CLAUDE.md §5). Fond encre : le seul grand bloc sombre de
+ * la page — logo inversé, focus clair.
+ */
+import CallButton from './CallButton.astro';
+import { site } from '../site';
+
+const nav = [
+  { href: '/le-metier', label: 'Le métier' },
+  { href: '/prestations', label: 'Prestations' },
+  { href: '/le-cabinet', label: 'Le cabinet' },
+  { href: '/realisations', label: 'Réalisations' },
+  { href: '/questions-frequentes', label: 'Questions fréquentes' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const anneeCourante = 2026; // millésime figé (build statique)
+---
+
+<footer class="footer on-ink">
+  <div class="container footer__grid">
+    <!-- Coordonnées / NAP -->
+    <section class="footer__col" aria-labelledby="footer-contact">
+      <a href="/" class="footer__logo" aria-label={`${site.nom} — accueil`}>
+        <img src="/logo-inverse.svg" width="216" height="50" alt={`${site.nom} — ${site.baseline}`} />
+      </a>
+      <h2 id="footer-contact" class="footer__title">Nous contacter</h2>
+      <p>Un doute, une question, un courrier à écrire&nbsp;? Appelez-nous, c'est le plus simple.</p>
+      <div class="footer__cta">
+        <CallButton variant="inverse" showNumber={true} />
+      </div>
+
+      <address class="footer__address">
+        <strong>{site.nom}</strong><br />
+        {site.adresse.rue && <>{site.adresse.rue}<br /></>}
+        {site.adresse.codePostal} {site.adresse.ville}
+      </address>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="footer__col" aria-label="Plan du site">
+      <h2 class="footer__title">Le site</h2>
+      <ul class="footer__nav">
+        {nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Zone d'intervention — noms cités en exemples, jamais en liste fermée -->
+    <section class="footer__col" aria-labelledby="footer-zone">
+      <h2 id="footer-zone" class="footer__title">Zone d'intervention</h2>
+      <p>
+        Écrivaine publique dans tout le pays de Grasse et
+        l'arrière-pays&nbsp;: {site.communes.join(', ')}… et toutes les
+        communes alentour.
+      </p>
+      <p class="footer__zone-note">
+        Plus loin&nbsp;? Appelez quand même&nbsp;: nous travaillons aussi à
+        distance.
+      </p>
+    </section>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <p>© {anneeCourante} {site.nom}. Tous droits réservés.</p>
+      <ul class="footer__legal">
+        <li><a href="/mentions-legales">Mentions légales</a></li>
+        <li><a href="/confidentialite">Confidentialité</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer__grid {
+    display: grid;
+    gap: var(--space-2xl);
+    padding-block: var(--space-2xl);
+  }
+  @media (min-width: 48rem) {
+    .footer__grid {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      padding-block: var(--space-3xl) var(--space-2xl);
+    }
+  }
+
+  .footer__logo { display: inline-flex; margin-bottom: var(--space-lg); }
+  .footer__logo img { width: auto; height: 42px; }
+
+  .footer__title {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--space-md);
+  }
+
+  .footer__cta { margin-block: var(--space-lg); }
+
+  .footer__address {
+    font-style: normal;
+    line-height: var(--lh-body);
+  }
+
+  .footer__nav,
+  .footer__legal {
+    list-style: none;
+    padding: 0;
+  }
+  .footer__nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    text-decoration: none;
+  }
+  .footer__nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+  .footer__zone-note { margin-top: var(--space-md); }
+
+  .footer__bottom { border-top: var(--hairline) solid var(--c-sage); }
+  .footer__bottom-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    justify-content: space-between;
+    align-items: center;
+    padding-block: var(--space-md);
+    font-size: var(--fs-small);
+  }
+  .footer__legal { display: flex; gap: var(--space-lg); }
+  .footer__legal a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Mobile/tablette : dégager la barre d'appel fixe (visible < 62rem) */
+  @media (max-width: 61.999rem) {
+    .footer__bottom-inner { padding-bottom: calc(var(--tap-min) + var(--space-xl)); }
+  }
+</style>

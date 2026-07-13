@@ -1,0 +1,113 @@
+---
+/**
+ * Questions fréquentes — lever les objections : prix, confidentialité,
+ * déroulé, délais, déplacement (CLAUDE.md §5). JSON-LD FAQPage généré
+ * depuis le même tableau (une seule source de vérité).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaFinal from '../components/CtaFinal.astro';
+import Ornament from '../components/Ornament.astro';
+import { site } from '../site';
+
+const faq = [
+  {
+    q: 'Combien ça coûte ?',
+    r: "Chaque demande est différente, alors tout est sur devis. Le devis est gratuit, sans engagement, et le prix est annoncé avant de commencer. Il ne bouge plus ensuite : pas de surprise.",
+  },
+  {
+    q: 'Est-ce vraiment confidentiel ?',
+    r: "Oui, totalement. Vos documents, vos courriers et votre histoire ne sont jamais montrés, jamais partagés, jamais réutilisés. Même les témoignages publiés sur ce site ne le sont qu'avec un accord écrit.",
+  },
+  {
+    q: 'Comment se passe le premier contact ?',
+    r: "Vous appelez, vous expliquez votre situation avec vos mots. Ce premier échange est gratuit : il sert à comprendre votre besoin et à vous dire, honnêtement, si nous pouvons vous aider.",
+  },
+  {
+    q: 'Faut-il préparer quelque chose avant de venir ?',
+    r: "Non. Venez avec vos documents si vous en avez, et c'est tout. Les questions, c'est notre travail : nous trouverons les mots ensemble.",
+  },
+  {
+    q: 'Vous déplacez-vous à domicile ?',
+    r: `Oui, dans tout le pays de Grasse et l'arrière-pays — ${site.communes.slice(1, 6).join(', ')}… la liste n'est pas fermée. Si vous êtes plus loin, appelez quand même : un rendez-vous à distance est souvent possible.`,
+  },
+  {
+    q: 'Quels sont les délais ?',
+    r: "Cela dépend du texte : une lettre ne demande pas le même temps qu'un récit de vie. Nous convenons d'une date ensemble dès le devis, et nous la tenons.",
+  },
+  {
+    q: 'Remplacez-vous un avocat ou un notaire ?',
+    r: "Non. Un écrivain public écrit, il ne donne pas de conseil juridique. Si votre situation demande un professionnel du droit, nous vous le disons franchement et nous vous aidons à formuler votre demande pour lui.",
+  },
+  {
+    q: "J'ai déjà écrit mon texte. Pouvez-vous juste le relire ?",
+    r: "Bien sûr. Nous relisons, corrigeons et mettons en forme, en gardant votre voix : le texte reste le vôtre, simplement plus sûr de lui.",
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.r },
+  })),
+};
+---
+
+<BaseLayout
+  title="Questions fréquentes — Prête moi ta plume"
+  description="Prix, confidentialité, délais, déplacement à domicile : les réponses claires à vos questions sur notre travail d'écrivain public près de Grasse."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} slot="head" />
+
+  <PageHeader eyebrow="Questions fréquentes" title="Vos questions, nos réponses">
+    <p>
+      Les questions qu'on nous pose le plus souvent, avec des réponses
+      franches. La vôtre n'y est pas&nbsp;? Appelez, c'est encore plus simple.
+    </p>
+  </PageHeader>
+
+  <!-- Les réponses, posées comme des feuilles sur le bureau (bande sauge) -->
+  <section class="section on-sage faq">
+    <div class="container">
+      <dl class="faq-liste">
+        {faq.map((item) => (
+          <div class="faq-item card">
+            <dt>{item.q}</dt>
+            <dd>{item.r}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="faq-fleuron"><Ornament /></div>
+    </div>
+  </section>
+
+  <CtaFinal title="Une question qui reste sans réponse ?" fond="paper">
+    Posez-la de vive voix&nbsp;: c'est gratuit, et vous saurez tout de suite
+    à qui vous avez affaire.
+  </CtaFinal>
+</BaseLayout>
+
+<style>
+  .faq-liste {
+    margin: 0;
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .faq-item { max-width: 46rem; }
+  .faq-item dt {
+    font-family: var(--font-title);
+    font-size: var(--fs-h3);
+    font-weight: 520;
+    line-height: var(--lh-title);
+  }
+  .faq-item dd {
+    margin: var(--space-sm) 0 0;
+    max-width: var(--measure);
+  }
+
+  .faq-fleuron { margin-top: var(--space-2xl); }
+</style>

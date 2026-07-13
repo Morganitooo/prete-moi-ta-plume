@@ -1,0 +1,64 @@
+---
+/**
+ * CallButton — bouton « Appelez-moi » réutilisable (CTA principal du site).
+ * Icône téléphone TOUJOURS accompagnée de texte (CLAUDE.md §4).
+ *
+ * Props :
+ *  - variant : 'solid' (défaut) | 'inverse' | 'outline'
+ *  - block   : pleine largeur sur mobile
+ *  - showNumber : affiche le numéro en clair dans le libellé (défaut : true)
+ *  - label   : libellé personnalisé (sinon « Appelez-moi »)
+ */
+import { site } from '../site';
+
+interface Props {
+  variant?: 'solid' | 'inverse' | 'outline';
+  block?: boolean;
+  showNumber?: boolean;
+  label?: string;
+  class?: string;
+}
+
+const {
+  variant = 'solid',
+  block = false,
+  showNumber = true,
+  label = 'Appelez-moi',
+  class: extraClass = '',
+} = Astro.props;
+
+const classes = ['btn', `btn--${variant}`, block ? 'btn--block' : '', extraClass]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<a
+  class={classes}
+  href={site.tel.href}
+  aria-label={`Appeler le ${site.tel.affiche}`}
+>
+  <svg class="callbtn__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path
+      fill="currentColor"
+      d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2Z"
+    />
+  </svg>
+  <span class="callbtn__label">
+    {label}{showNumber && <span class="callbtn__sep" aria-hidden="true"> · </span>}{showNumber && (
+      <span class="callbtn__number">{site.tel.affiche}</span>
+    )}
+  </span>
+</a>
+
+<style>
+  .callbtn__icon { flex-shrink: 0; }
+  /* Quand le numéro passe à la ligne, les deux lignes s'alignent à gauche,
+     bord à bord, contre l'icône. */
+  .callbtn__label { text-align: left; }
+  .callbtn__number { white-space: nowrap; }
+  /* Sur très petit écran : le numéro passe seul à la ligne, sans séparateur orphelin */
+  @media (max-width: 26rem) {
+    .callbtn__sep { display: none; }
+    .callbtn__number { display: block; }
+  }
+</style>

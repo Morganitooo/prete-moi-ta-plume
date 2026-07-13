@@ -1,0 +1,104 @@
+---
+/**
+ * BaseLayout — gabarit unique : head SEO, skip-link, header, main, footer,
+ * barre d'appel fixe en bas sur mobile (CLAUDE.md §4, §6, §8).
+ *
+ * Props :
+ *  - title       : <title> unique (~60 car.)
+ *  - description : <meta description> unique (~155 car.)
+ *  - image       : image de partage OG (chemin absolu depuis /), optionnel
+ *  - noindex     : bloque l'indexation (ex. pages utilitaires)
+ */
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CallButton from '../components/CallButton.astro';
+import { site } from '../site';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = '/og-default.jpg', // [À COMPLÉTER] image de partage générée via Nano Banana
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Préchargement des polices critiques (perf / anti-FOUT) -->
+    <link rel="preload" href="/fonts/atkinson-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/fraunces-variable-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Open Graph / partage -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.nom} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+    <Header />
+
+    <main id="contenu">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- Barre d'appel fixe en bas (mobile uniquement) — CTA toujours atteignable -->
+    <div class="callbar">
+      <div class="callbar__inner">
+        <CallButton variant="solid" block={true} showNumber={true} label="Appelez-moi" />
+      </div>
+    </div>
+
+    <style>
+      .callbar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 90;
+        background: var(--c-paper);
+        border-top: var(--hairline) solid var(--c-ink);
+      }
+      .callbar__inner {
+        padding: var(--space-sm) var(--space-md);
+        max-width: var(--container);
+        margin-inline: auto;
+      }
+      /* Desktop : le CTA est déjà dans le header → on masque la barre fixe */
+      @media (min-width: 62rem) {
+        .callbar { display: none; }
+      }
+    </style>
+  </body>
+</html>

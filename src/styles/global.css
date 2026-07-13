@@ -1,0 +1,380 @@
+/* =============================================================================
+   « Prête moi ta plume » — Design System
+   Point de vérité unique. Voir CLAUDE.md §3 (identité) et §4 (accessibilité).
+
+   TRILOGIE DU MÉTIER :
+     le PAPIER  (#ffffff) — fond dominant, cartes, respiration ;
+     l'ENCRE    (#353531) — texte, boutons, traits ;
+     la SAUGE   (#dbe7dc) — bandes d'ambiance, accents doux, le calme du lieu.
+   Pas de 4ᵉ couleur, pas de gris intermédiaire, pas de dégradé.
+   La hiérarchie vient de la taille, de la graisse et de l'espace blanc.
+   ========================================================================== */
+
+/* ----------------------------------------------------------------------------
+   1. Polices auto-hébergées (RGPD, perf, zéro requête tierce)
+   ------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-variable-latin.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-variable-latin-ext.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("/fonts/atkinson-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("/fonts/atkinson-400-latin-ext.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("/fonts/atkinson-700-latin.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("/fonts/atkinson-700-latin-ext.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ----------------------------------------------------------------------------
+   2. Design tokens
+   ------------------------------------------------------------------------- */
+:root {
+  /* Couleurs — LES TROIS SEULES autorisées dans l'UI */
+  --c-ink: #353531;     /* l'encre — texte, boutons, traits */
+  --c-paper: #ffffff;   /* le papier — fond dominant, cartes */
+  --c-sage: #dbe7dc;    /* la sauge — bandes d'ambiance, accents */
+
+  /* Alias de compatibilité (anciens noms) */
+  --c-dark: var(--c-ink);
+  --c-light: var(--c-sage);
+
+  /* Typographie */
+  --font-title: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Atkinson Hyperlegible", Verdana, Arial, sans-serif;
+
+  /* Échelle typographique — mobile-first, fluide */
+  --fs-body: 1.125rem;                                 /* 18px — plancher texte lu */
+  --fs-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.4375rem);
+  --fs-h3:   clamp(1.375rem, 1.2rem + 0.9vw, 1.75rem);
+  --fs-h2:   clamp(1.75rem, 1.4rem + 1.8vw, 2.375rem);
+  --fs-h1:   clamp(2.375rem, 1.7rem + 3vw, 3.75rem);
+  --fs-small: 1rem;                                    /* 16px — plancher absolu */
+  --fs-eyebrow: 0.9375rem;                             /* 15px, réservé aux sur-titres majuscules */
+
+  --lh-body: 1.65;
+  --lh-title: 1.12;
+
+  /* Longueur de ligne lisible (60–70 caractères) */
+  --measure: 65ch;
+
+  /* Espacement */
+  --space-2xs: 0.25rem;
+  --space-xs:  0.5rem;
+  --space-sm:  0.75rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6.5rem;
+
+  /* Cibles tactiles & traits */
+  --tap-min: 48px;
+  --radius-btn: 8px;
+  --radius-card: 4px;     /* presque droit — comme une feuille de papier */
+  --hairline: 1px;        /* trait fin de structure (encre) */
+  --focus-width: 3px;
+
+  /* Largeurs de contenu */
+  --container: 70rem;
+}
+
+/* ----------------------------------------------------------------------------
+   3. Reset raisonné
+   ------------------------------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Aucun défilement latéral : coupe les débordements horizontaux
+     et le rebond élastique du trackpad (macOS/iOS). */
+  overflow-x: hidden; /* repli anciens navigateurs */
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-x: clip;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--c-ink);
+  background-color: var(--c-paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select { font: inherit; color: inherit; }
+
+/* ----------------------------------------------------------------------------
+   4. Typographie
+   ------------------------------------------------------------------------- */
+h1, h2, h3 {
+  font-family: var(--font-title);
+  line-height: var(--lh-title);
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--fs-h1); font-weight: 540; }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); font-weight: 520; }
+
+p, li { max-width: var(--measure); }
+
+a { color: inherit; }
+
+/* Sur-titre (eyebrow) — comme une mention en tête de lettre :
+   serif italique, bas de casse, discret et chaleureux */
+.eyebrow {
+  font-family: var(--font-title);
+  font-style: italic;
+  font-size: clamp(1.1875rem, 1.05rem + 0.6vw, 1.375rem);
+  font-weight: 480;
+  letter-spacing: 0.01em;
+}
+
+.prose a {
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+strong, b { font-weight: 700; }
+
+/* ----------------------------------------------------------------------------
+   5. Accessibilité — focus & lien d'évitement
+   ------------------------------------------------------------------------- */
+:focus-visible {
+  outline: var(--focus-width) solid var(--c-ink);
+  outline-offset: 2px;
+}
+.on-ink :focus-visible,
+.on-ink:focus-visible {
+  outline-color: var(--c-paper);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-md);
+  top: var(--space-md);
+  z-index: 999;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--c-ink);
+  color: var(--c-paper);
+  font-weight: 700;
+  border-radius: var(--radius-btn);
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* ----------------------------------------------------------------------------
+   6. Bandes de section — le rythme papier / sauge / encre
+   ------------------------------------------------------------------------- */
+.on-paper { background-color: var(--c-paper); color: var(--c-ink); }
+.on-sage  { background-color: var(--c-sage);  color: var(--c-ink); }
+.on-ink   { background-color: var(--c-ink);   color: var(--c-paper); }
+
+/* Alias de compatibilité */
+.on-light { background-color: var(--c-paper); color: var(--c-ink); }
+.on-dark  { background-color: var(--c-ink);   color: var(--c-paper); }
+
+/* ----------------------------------------------------------------------------
+   7. Mise en page
+   ------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+@media (min-width: 48rem) {
+  .container { padding-inline: var(--space-xl); }
+}
+
+.section { padding-block: var(--space-2xl); }
+@media (min-width: 48rem) {
+  .section { padding-block: var(--space-3xl); }
+}
+
+.prose > * + * { margin-top: var(--space-md); }
+/* Marges de titres UNIQUEMENT quand ils suivent du contenu (jamais en
+   premier enfant, sinon la marge s'ajoute au padding de la section) */
+.prose > * + h2 { margin-top: var(--space-xl); }
+.prose > * + h3 { margin-top: var(--space-lg); }
+
+/* ----------------------------------------------------------------------------
+   8. Boutons — larges, pleins, évidents (≥ 48px)
+   ------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-height: var(--tap-min);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  border: 2px solid var(--c-ink);
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: transform 0.08s ease, background-color 0.12s ease;
+}
+
+/* Plein encre (primaire, sur papier ou sauge) */
+.btn--solid {
+  background: var(--c-ink);
+  color: var(--c-paper);
+}
+
+/* Papier (sur fond encre) */
+.btn--inverse {
+  background: var(--c-paper);
+  color: var(--c-ink);
+  border-color: var(--c-paper);
+}
+
+/* Contour (secondaire) */
+.btn--outline {
+  background: transparent;
+  color: var(--c-ink);
+}
+.btn--outline:hover { background: var(--c-sage); }
+.on-ink .btn--outline {
+  color: var(--c-paper);
+  border-color: var(--c-paper);
+}
+.on-ink .btn--outline:hover { background: transparent; text-decoration: underline; text-underline-offset: 4px; }
+
+.btn:active { transform: translateY(2px); }
+
+.btn--block { width: 100%; }
+@media (min-width: 40rem) {
+  .btn--block { width: auto; }
+}
+
+/* ----------------------------------------------------------------------------
+   9. Cartes — des feuilles de papier
+   Sur bande sauge : carte blanche, sans bordure (feuille posée sur le bureau).
+   Sur fond papier : carte blanche cerclée d'un trait d'encre fin.
+   ------------------------------------------------------------------------- */
+.card {
+  background: var(--c-paper);
+  border: var(--hairline) solid var(--c-ink);
+  border-radius: var(--radius-card);
+  padding: var(--space-xl) var(--space-lg);
+}
+.on-sage .card { border-color: var(--c-paper); }
+.on-ink .card {
+  background: transparent;
+  border-color: var(--c-paper);
+  color: var(--c-paper);
+}
+
+/* ----------------------------------------------------------------------------
+   10. Filets — traits de structure fins, en encre ou en sauge
+   ------------------------------------------------------------------------- */
+.rule-ink  { border: 0; border-top: var(--hairline) solid var(--c-ink); }
+.rule-sage { border: 0; border-top: var(--hairline) solid var(--c-sage); }
+
+/* ----------------------------------------------------------------------------
+   11. Utilitaires
+   ------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.text-center { text-align: center; }
+.nowrap { white-space: nowrap; }
+.lead { font-size: var(--fs-lead); }
+.stack > * + * { margin-top: var(--space-md); }
+.stack-lg > * + * { margin-top: var(--space-lg); }
+
+/* ----------------------------------------------------------------------------
+   12. Respect de prefers-reduced-motion
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

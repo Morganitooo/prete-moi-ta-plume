@@ -1,0 +1,30 @@
+---
+/**
+ * PageHeader — en-tête commun des pages intérieures :
+ * sur-titre (eyebrow), <h1> unique, chapô (slot).
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+}
+
+const { eyebrow, title } = Astro.props;
+---
+
+<section class="section pagehead">
+  <div class="container">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    <div class="pagehead__lead lead">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .pagehead { padding-bottom: var(--space-xl); }
+  .pagehead .eyebrow { margin-bottom: var(--space-lg); }
+  .pagehead h1 { max-width: 20ch; }
+  .pagehead__lead { margin-top: var(--space-lg); }
+  .pagehead__lead :global(p) { max-width: 50ch; }
+</style>

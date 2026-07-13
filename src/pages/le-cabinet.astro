@@ -1,0 +1,162 @@
+---
+/**
+ * Le cabinet — le lieu, l'ancrage local, la façon de travailler.
+ * Rassure sur la proximité (CLAUDE.md §5). Nomme les communes voisines (SEO local).
+ * NOTE : modes de rencontre (cabinet / domicile / distance) à valider avec la
+ * cliente. Adresse : décision client — ville uniquement, pas d'adresse exacte.
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaFinal from '../components/CtaFinal.astro';
+import { site } from '../site';
+import cabinetVillage from '../assets/cabinet-village.png';
+---
+
+<BaseLayout
+  title="Le cabinet à Saint-Vallier-de-Thiey — Prête moi ta plume"
+  description="Un cabinet d'écrivain public à Saint-Vallier-de-Thiey, au cœur du pays de Grasse. Au cabinet, à domicile ou à distance : nous venons à vous."
+>
+  <PageHeader eyebrow="Le cabinet" title="Un cabinet d'écriture à Saint-Vallier-de-Thiey">
+    <p>
+      C'est ici, dans le pays de Grasse, que la plume s'est installée.
+      Un endroit calme pour poser vos papiers, raconter, et repartir plus léger.
+    </p>
+  </PageHeader>
+
+  <!-- Le lieu -->
+  <section class="section cabinet-lieu">
+    <div class="container cabinet-lieu__grid">
+      <div class="prose">
+        <h2>Au cœur du village</h2>
+        <p>
+          Le cabinet vous accueille à <strong>Saint-Vallier-de-Thiey</strong>,
+          dans le pays de Grasse. Pas de démarche compliquée pour venir&nbsp;:
+          un appel suffit pour convenir d'un moment — nous vous indiquons
+          alors le chemin.
+        </p>
+        <p>
+          Vous y serez reçu sans hâte, autour d'une table, avec le temps qu'il
+          faut. Quand vous êtes là, nous ne sommes qu'à vous.
+        </p>
+      </div>
+      <div class="cabinet-lieu__media">
+        <Image
+          src={cabinetVillage}
+          alt="Ruelle en pierre d'un village de l'arrière-pays grassois, volets verts et collines en fond"
+          widths={[480, 760, 1086, 1448]}
+          sizes="(min-width: 62rem) 44vw, calc(100vw - 3rem)"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Trois façons de travailler -->
+  <section class="section on-sage">
+    <div class="container">
+      <h2>Trois façons de travailler</h2>
+      <div class="cards">
+        <article class="card stack">
+          <h3>Au cabinet</h3>
+          <p>
+            Vous venez avec vos documents, nous faisons le point ensemble.
+            Le cadre est calme et confidentiel.
+          </p>
+        </article>
+        <article class="card stack">
+          <h3>À votre domicile</h3>
+          <p>
+            Vous ne pouvez pas vous déplacer&nbsp;? Nous venons chez vous,
+            dans les communes alentour, avec tout ce qu'il faut.
+          </p>
+        </article>
+        <article class="card stack">
+          <h3>À distance</h3>
+          <p>
+            Par téléphone ou en visio, pour les situations simples ou les
+            familles éloignées. Aussi sérieux, aussi soigné.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zone d'intervention — SEO local -->
+  <section class="section">
+    <div class="container">
+      <h2>Là où nous intervenons</h2>
+      <p class="cabinet-zone-intro">
+        Le cabinet rayonne sur <strong>tout le pays de Grasse et
+        l'arrière-pays</strong> — par exemple&nbsp;:
+      </p>
+      <ul class="communes">
+        {site.communes.map((c) => <li>{c}</li>)}
+        <li class="communes__plus">…et toutes les communes alentour</li>
+      </ul>
+      <p class="prose">
+        Votre village n'est pas cité&nbsp;? Appelez quand même&nbsp;: selon la
+        demande, un rendez-vous à distance ou un déplacement reste souvent possible.
+      </p>
+    </div>
+  </section>
+
+  <CtaFinal title="Venez comme vous êtes">
+    Au cabinet, chez vous ou au téléphone&nbsp;: dites-nous ce qui vous
+    arrange, nous nous adaptons.
+  </CtaFinal>
+</BaseLayout>
+
+<style>
+  .cabinet-lieu { padding-top: 0; }
+
+  .cabinet-lieu__grid {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+  @media (min-width: 62rem) {
+    .cabinet-lieu__grid { grid-template-columns: 1.1fr 0.9fr; gap: var(--space-2xl); }
+  }
+  .cabinet-lieu__media :global(img) {
+    border: var(--hairline) solid var(--c-ink);
+    border-radius: var(--radius-card);
+    width: 100%;
+    height: auto;
+  }
+
+  .cards {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+    margin-top: var(--space-xl);
+  }
+  @media (min-width: 40rem) {
+    .cards { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  }
+
+  .cabinet-zone-intro {
+    margin-top: var(--space-sm);
+    max-width: 50ch;
+  }
+
+  .communes {
+    list-style: none;
+    padding: 0;
+    margin-block: var(--space-lg);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+  .communes li {
+    border: var(--hairline) solid var(--c-ink);
+    border-radius: 999px;
+    padding: var(--space-xs) var(--space-md);
+    background: var(--c-sage);
+  }
+  /* La pastille d'ouverture — même forme, fond papier : la liste n'est pas close */
+  .communes__plus {
+    background: var(--c-paper);
+    font-style: italic;
+  }
+</style>

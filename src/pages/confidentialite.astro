@@ -1,0 +1,52 @@
+---
+/**
+ * Politique de confidentialité — RGPD. À compléter/valider avant mise en
+ * ligne (notamment selon le service de formulaire retenu). [À COMPLÉTER]
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../site';
+---
+
+<BaseLayout
+  title="Politique de confidentialité — Prête moi ta plume"
+  description="Comment le site Prête moi ta plume traite vos données personnelles : le strict minimum, et rien d'autre."
+  noindex={true}
+>
+  <PageHeader title="Confidentialité">
+    <p>Ce site collecte le strict minimum. Voici quoi, pourquoi, et vos droits.</p>
+  </PageHeader>
+
+  <section class="section legal">
+    <div class="container prose">
+      <h2>Ce que nous collectons</h2>
+      <p>
+        Ce site ne dépose aucun cookie de suivi et n'utilise aucun outil
+        publicitaire. Si vous utilisez le formulaire de contact, nous recevons
+        uniquement ce que vous y écrivez&nbsp;: votre nom, votre téléphone et
+        votre message.
+      </p>
+
+      <h2>Ce que nous en faisons</h2>
+      <p>
+        Ces informations servent à vous répondre, et à rien d'autre. Elles ne
+        sont ni vendues, ni partagées, ni utilisées pour de la publicité.
+      </p>
+      <p>
+        [À COMPLÉTER&nbsp;: mentionner le prestataire du formulaire
+        (Formspree/Web3Forms) et la durée de conservation une fois le service choisi.]
+      </p>
+
+      <h2>Vos droits</h2>
+      <p>
+        Vous pouvez demander à consulter, corriger ou supprimer les
+        informations que vous nous avez transmises. Un appel ou un message
+        suffit&nbsp;: {site.tel.affiche}.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal { padding-top: 0; }
+</style>

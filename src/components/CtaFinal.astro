@@ -1,0 +1,46 @@
+---
+/**
+ * CtaFinal — rappel d'action de fin de page (CLAUDE.md §8.4).
+ * Bande sauge, téléphone d'abord, formulaire en second. Chaque page
+ * intérieure se termine par ce bloc.
+ */
+import CallButton from './CallButton.astro';
+
+interface Props {
+  title?: string;
+  /** Fond de la bande : sauge (défaut) ou papier — pour alterner avec la section précédente. */
+  fond?: 'sage' | 'paper';
+}
+
+const { title = 'Parlons-en de vive voix', fond = 'sage' } = Astro.props;
+---
+
+<section class={`section ctafinal ${fond === 'sage' ? 'on-sage' : 'on-paper'}`}>
+  <div class="container">
+    <h2>{title}</h2>
+    <p class="ctafinal__text">
+      <slot>
+        Le plus simple est de nous appeler&nbsp;: vous expliquez votre situation
+        avec vos mots, et nous vous disons comment nous pouvons aider.
+        C'est gratuit et sans engagement.
+      </slot>
+    </p>
+    <div class="ctafinal__actions">
+      <CallButton variant="solid" />
+      <a class="btn btn--outline" href="/contact">Écrire via le formulaire</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ctafinal__text {
+    margin-top: var(--space-md);
+    max-width: 50ch;
+  }
+  .ctafinal__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+  }
+</style>

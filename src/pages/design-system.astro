@@ -1,0 +1,172 @@
+---
+/**
+ * Style guide vivant — vitrine du design system appliqué.
+ * Page utilitaire (noindex) : sert à valider le rendu, pas au public.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CallButton from '../components/CallButton.astro';
+---
+
+<BaseLayout
+  title="Design system — Prête moi ta plume"
+  description="Vitrine interne du design system : couleurs, typographie, composants."
+  noindex={true}
+>
+  <section class="section">
+    <div class="container stack-lg">
+      <p><a href="/">← Retour à l'accueil</a></p>
+      <h1>Design system</h1>
+      <p class="lead" style="max-width: 50ch">
+        Trois matières&nbsp;: le papier (blanc), l'encre (charbon), la sauge
+        (le calme du lieu). Hiérarchie par la taille, la graisse et l'espace.
+      </p>
+    </div>
+  </section>
+
+  <!-- Couleurs -->
+  <section class="section on-sage">
+    <div class="container stack-lg">
+      <h2>Les trois couleurs</h2>
+      <div class="swatches">
+        <div class="swatch card">
+          <div class="swatch__chip" style="background:#ffffff; border: 1px solid #353531"></div>
+          <p><strong>Papier</strong><br />#ffffff<br />Fond dominant, cartes.</p>
+        </div>
+        <div class="swatch card">
+          <div class="swatch__chip" style="background:#353531"></div>
+          <p><strong>Encre</strong><br />#353531<br />Texte, boutons, traits.</p>
+        </div>
+        <div class="swatch card">
+          <div class="swatch__chip" style="background:#dbe7dc; border: 1px solid #353531"></div>
+          <p><strong>Sauge</strong><br />#dbe7dc<br />Bandes d'ambiance, accents.</p>
+        </div>
+      </div>
+      <p>Encre sur papier ≈ 12,6:1 · encre sur sauge ≈ 11:1 → WCAG AAA partout.</p>
+    </div>
+  </section>
+
+  <!-- Typographie -->
+  <section class="section">
+    <div class="container stack">
+      <h2>Typographie</h2>
+      <p class="prose">
+        Titres en <strong>Fraunces</strong> (serif chaleureux, évoque la plume).
+        Corps en <strong>Atkinson Hyperlegible</strong> (conçue pour la basse vision).
+      </p>
+      <div class="stack" style="margin-top:var(--space-lg)">
+        <p class="eyebrow">Sur-titre (eyebrow)</p>
+        <!-- Spécimens typographiques : stylés comme des titres, sans en être
+             (un seul h1 par page, hiérarchie sans doublons) -->
+        <p class="specimen-h1">Titre H1 — la plume à votre service</p>
+        <p class="specimen-h2">Titre H2 — le métier d'écrivain public</p>
+        <p class="specimen-h3">Titre H3 — un accompagnement humain</p>
+        <p class="lead">Chapô — une phrase d'introduction un peu plus grande, pour poser le contexte avec douceur.</p>
+        <p class="prose">
+          Corps de texte à 18px minimum, interligne 1.65, longueur de ligne
+          limitée à ~65 caractères. Vous n'êtes plus seul face à vos papiers&nbsp;:
+          nous vous accompagnons, pas à pas, avec des mots justes.
+          <a href="#">Un lien dans le texte</a>, toujours souligné. Et des
+          caractères français&nbsp;: cœur, œuvre, à, é, ù, ç.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Boutons sur papier -->
+  <section class="section">
+    <div class="container stack-lg">
+      <h2>Boutons — sur papier</h2>
+      <div class="btn-row">
+        <CallButton variant="solid" />
+        <a class="btn btn--outline" href="#">En savoir plus</a>
+      </div>
+      <p>Cibles ≥ 48px. Contour de focus net au clavier (essayez Tab). Le bouton contour se teinte de sauge au survol.</p>
+    </div>
+  </section>
+
+  <!-- Bande sauge : cartes-feuilles -->
+  <section class="section on-sage">
+    <div class="container stack-lg">
+      <h2>Bande sauge — des feuilles posées sur le bureau</h2>
+      <p style="max-width: 50ch">
+        Sur une bande sauge, les cartes sont des feuilles blanches, sans
+        bordure appuyée. C'est le motif signature du site.
+      </p>
+      <div class="cards">
+        <div class="card stack">
+          <h3>Courriers administratifs</h3>
+          <p>Rédaction de vos lettres importantes, en toute confidentialité.</p>
+        </div>
+        <div class="card stack">
+          <h3>Récits de vie</h3>
+          <p>Mettre votre histoire par écrit, pour vous et vos proches.</p>
+        </div>
+        <div class="card stack">
+          <h3>Démarches en ligne</h3>
+          <p>Un accompagnement patient face aux sites administratifs.</p>
+        </div>
+      </div>
+      <div class="btn-row">
+        <CallButton variant="solid" />
+        <a class="btn btn--outline" href="#">Bouton contour</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bande encre -->
+  <section class="section on-ink">
+    <div class="container stack-lg">
+      <h2>Bande encre — réservée aux moments forts</h2>
+      <p style="max-width: 50ch">
+        Le bloc sombre est rare&nbsp;: le pied de page, et parfois un appel à
+        l'action. Jamais deux de suite.
+      </p>
+      <div class="btn-row">
+        <CallButton variant="inverse" />
+        <a class="btn btn--outline" href="#">Bouton contour clair</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Spécimens typographiques — apparence de titres sans la sémantique */
+  .specimen-h1,
+  .specimen-h2,
+  .specimen-h3 {
+    font-family: var(--font-title);
+    line-height: var(--lh-title);
+    letter-spacing: -0.01em;
+    max-width: none;
+    text-wrap: balance;
+  }
+  .specimen-h1 { font-size: var(--fs-h1); font-weight: 540; }
+  .specimen-h2 { font-size: var(--fs-h2); font-weight: 560; }
+  .specimen-h3 { font-size: var(--fs-h3); font-weight: 520; }
+
+  .swatches {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 40rem) {
+    .swatches { grid-template-columns: repeat(3, 1fr); }
+  }
+  .swatch { display: flex; flex-direction: column; gap: var(--space-md); }
+  .swatch__chip {
+    width: 100%;
+    height: 72px;
+    border-radius: var(--radius-card);
+  }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: var(--space-md); }
+
+  .cards {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 40rem) {
+    .cards { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  }
+</style>

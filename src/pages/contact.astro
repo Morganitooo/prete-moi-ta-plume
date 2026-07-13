@@ -1,0 +1,176 @@
+---
+/**
+ * Contact — téléphone en gros + formulaire court (Formspree/Web3Forms,
+ * endpoint [À COMPLÉTER]) + adresse + lien carte (CLAUDE.md §5, §8.2).
+ * Pas d'horaires affichés (non communiqués).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CallButton from '../components/CallButton.astro';
+import { site } from '../site';
+
+// [À COMPLÉTER] endpoint Formspree/Web3Forms dans src/site.ts
+const formAction = site.formulaireEndpoint || '#';
+
+const mapsUrl =
+  'https://www.google.com/maps/search/?api=1&query=' +
+  encodeURIComponent(`${site.nom}, ${site.adresse.codePostal} ${site.adresse.ville}`);
+---
+
+<BaseLayout
+  title="Contact — écrivain public à Saint-Vallier-de-Thiey (06)"
+  description="Appelez votre écrivain public au 06 64 44 48 26, ou écrivez-nous via le formulaire. Cabinet à Saint-Vallier-de-Thiey, déplacements dans le pays de Grasse."
+>
+  <PageHeader eyebrow="Contact" title="Parlons de ce que vous voulez écrire">
+    <p>
+      Le téléphone est le chemin le plus court&nbsp;: vous expliquez, nous
+      écoutons, et vous savez tout de suite si nous pouvons vous aider.
+    </p>
+  </PageHeader>
+
+  <!-- Téléphone — le geste n°1 -->
+  <section class="section contact-tel">
+    <div class="container">
+      <div class="card contact-tel__card">
+        <h2>Par téléphone</h2>
+        <p class="contact-tel__num">
+          <a href={site.tel.href} aria-label={`Appeler le ${site.tel.affiche}`}>{site.tel.affiche}</a>
+        </p>
+        <p>Premier échange gratuit et sans engagement. Si nous sommes en rendez-vous, laissez un message&nbsp;: nous rappelons.</p>
+        <div class="contact-tel__btn">
+          <CallButton variant="solid" block={true} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulaire — le secours -->
+  <section class="section on-sage">
+    <div class="container contact-form-grid">
+      <div>
+        <h2>Par écrit</h2>
+        <p class="contact-form-intro">
+          Vous préférez écrire, ou appeler ne vous arrange pas&nbsp;?
+          Laissez-nous trois lignes et un numéro&nbsp;: nous vous rappelons.
+        </p>
+      </div>
+
+      <form class="card contact-form" method="POST" action={formAction}>
+        <div class="field">
+          <label for="nom">Votre nom</label>
+          <input type="text" id="nom" name="nom" autocomplete="name" required />
+        </div>
+
+        <div class="field">
+          <label for="telephone">Votre téléphone</label>
+          <input type="tel" id="telephone" name="telephone" autocomplete="tel" required />
+        </div>
+
+        <div class="field">
+          <label for="message">Votre message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+
+        <!-- Anti-spam (honeypot) : champ invisible, à laisser vide -->
+        <div class="field field--gotcha" aria-hidden="true">
+          <label for="entreprise">Ne pas remplir</label>
+          <input type="text" id="entreprise" name="_gotcha" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <button type="submit" class="btn btn--solid btn--block">Envoyer le message</button>
+        <p class="contact-form__note">
+          Vos coordonnées servent uniquement à vous répondre. Rien d'autre.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Adresse & venue -->
+  <section class="section">
+    <div class="container">
+      <h2>Nous trouver</h2>
+      <div class="contact-adresse">
+        <address>
+          <strong>{site.nom}</strong><br />
+          {site.adresse.rue && <>{site.adresse.rue}<br /></>}
+          {site.adresse.codePostal} {site.adresse.ville}
+        </address>
+        <p>
+          <a href={mapsUrl} rel="noopener" target="_blank">
+            Voir l'itinéraire sur Google Maps
+            <span class="visually-hidden">(nouvelle fenêtre)</span>
+          </a>
+        </p>
+        <p class="prose">
+          Vous ne pouvez pas venir&nbsp;? Nous nous déplaçons à domicile dans
+          tout le pays de Grasse et l'arrière-pays
+          ({site.communes.slice(1, 5).join(', ')}… et alentour), et nous
+          travaillons aussi à distance.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-tel { padding-top: 0; }
+
+  .contact-tel__card { max-width: 34rem; }
+  .contact-tel__num {
+    margin-top: var(--space-sm);
+  }
+  .contact-tel__num a {
+    font-family: var(--font-title);
+    font-size: var(--fs-h1);
+    font-weight: 600;
+    line-height: 1.1;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .contact-tel__num a:hover { text-decoration: underline; text-underline-offset: 6px; }
+  .contact-tel__card p { margin-top: var(--space-md); }
+  .contact-tel__btn { margin-top: var(--space-lg); }
+
+  /* --- Formulaire --- */
+  .contact-form-grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+  @media (min-width: 48rem) {
+    .contact-form-grid { grid-template-columns: 1fr 1.4fr; align-items: start; }
+  }
+  .contact-form-intro { margin-top: var(--space-sm); max-width: 40ch; }
+
+  .contact-form { display: grid; gap: var(--space-lg); }
+
+  .field { display: grid; gap: var(--space-xs); }
+  .field label { font-weight: 700; }
+  .field input,
+  .field textarea {
+    width: 100%;
+    min-height: var(--tap-min);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--c-paper);
+    border: var(--hairline) solid var(--c-ink);
+    border-radius: var(--radius-card);
+  }
+  .field textarea { resize: vertical; }
+
+  /* Honeypot : retiré visuellement, présent pour les robots */
+  .field--gotcha {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .contact-form__note { font-size: var(--fs-small); }
+
+  /* --- Adresse --- */
+  .contact-adresse {
+    margin-top: var(--space-lg);
+    display: grid;
+    gap: var(--space-md);
+  }
+  .contact-adresse address { font-style: normal; }
+</style>

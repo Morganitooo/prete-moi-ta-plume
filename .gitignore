@@ -1,0 +1,14 @@
+# Dépendances & caches
+node_modules/
+.npm-cache/
+
+# Sorties de build
+dist/
+.astro/
+
+# Système
+.DS_Store
+
+# Environnement local (clés API éventuelles — ne jamais committer)
+.env
+.env.*
