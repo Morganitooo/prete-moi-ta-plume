@@ -145,16 +145,21 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
     .header__list a { font-size: var(--fs-lead); font-weight: 400; }
   }
 
-  /* --- Desktop : nav horizontale, toggle caché --- */
+  /* --- Desktop : en-tête « papier à lettres » ---
+     Logo + téléphone en ligne 1, filet sauge, navigation CENTRÉE dessous. */
   @media (min-width: 62rem) {
     .header__toggle { display: none; }
-    .header__bar { padding-block: var(--space-sm); }
+    .header__bar { padding-block: var(--space-md); }
+    .header__logo img { height: 46px; }
+
+    .header__nav { border-top: var(--hairline) solid var(--c-sage); }
     #menu-principal {
       display: flex;
-      gap: var(--space-lg);
-      justify-content: flex-start;
+      gap: var(--space-xs) var(--space-xl);
+      justify-content: center;
       flex-wrap: wrap;
-      padding-block: 0 var(--space-sm);
+      padding-block: var(--space-2xs);
     }
+    .header__list a { min-height: 44px; }
   }
 </style>
