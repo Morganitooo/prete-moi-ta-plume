@@ -92,10 +92,7 @@ const temoignages: { texte: string; signature: string }[] = [];
   .temoignages-scene {
     display: grid;
     gap: var(--space-xl);
-    align-items: center;
-  }
-  @media (min-width: 62rem) {
-    .temoignages-scene { grid-template-columns: 1.1fr 0.9fr; gap: var(--space-2xl); }
+    align-items: stretch;
   }
   /* La photo, posée comme une feuille (même traitement que les autres pages) */
   .temoignages-media :global(img) {
@@ -103,6 +100,17 @@ const temoignages: { texte: string; signature: string }[] = [];
     border-radius: var(--radius-card);
     width: 100%;
     height: auto;
+  }
+  /* Desktop : l'image épouse exactement la hauteur de la carte voisine */
+  @media (min-width: 62rem) {
+    .temoignages-scene { grid-template-columns: 1.1fr 0.9fr; gap: var(--space-2xl); }
+    .temoignages-media { position: relative; }
+    .temoignages-media :global(img) {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   .temoignages-grid {
