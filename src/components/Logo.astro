@@ -1,0 +1,35 @@
+---
+/**
+ * Logo — marque « Prête moi ta plume » : plume + wordmark manuscrit (script
+ * High Spirited, extrait vectoriellement de la carte de visite).
+ *
+ * Taille pilotée par la variable CSS --logo-h (hauteur de la plume) définie
+ * sur le parent ; le wordmark suit à ~70 %.
+ * `light` : version claire (fond sombre) — obtenue par filtre, sans 2ᵉ fichier.
+ * Toujours utilisé dans un lien libellé (aria-label) → images décoratives.
+ */
+interface Props {
+  light?: boolean;
+  class?: string;
+}
+const { light = false, class: cls = '' } = Astro.props;
+---
+
+<span class:list={['logo', { 'logo--light': light }, cls]}>
+  <img src="/logo-plume.svg" alt="" class="logo__feather" width="36" height="114" />
+  <img src="/logo-wordmark.svg" alt="" class="logo__wordmark" width="188" height="41" />
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    line-height: 0;
+  }
+  .logo__feather { height: var(--logo-h, 2.6rem); width: auto; }
+  .logo__wordmark { height: calc(var(--logo-h, 2.6rem) * 0.7); width: auto; }
+
+  /* Version claire pour fond sombre : encre → blanc (alpha préservé) */
+  .logo--light img { filter: brightness(0) invert(1); }
+</style>

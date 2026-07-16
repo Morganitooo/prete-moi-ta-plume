@@ -5,6 +5,7 @@
  * la page — logo inversé, focus clair.
  */
 import CallButton from './CallButton.astro';
+import Logo from './Logo.astro';
 import { site } from '../site';
 
 const nav = [
@@ -24,7 +25,7 @@ const anneeCourante = 2026; // millésime figé (build statique)
     <!-- Coordonnées / NAP -->
     <section class="footer__col" aria-labelledby="footer-contact">
       <a href="/" class="footer__logo" aria-label={`${site.nom} — accueil`}>
-        <img src="/logo-inverse.svg" width="216" height="50" alt={`${site.nom} — ${site.baseline}`} />
+        <Logo light />
       </a>
       <h2 id="footer-contact" class="footer__title">Nous contacter</h2>
       <p>Un doute, une question, un courrier à écrire&nbsp;? Appelez-nous, c'est le plus simple.</p>
@@ -89,8 +90,7 @@ const anneeCourante = 2026; // millésime figé (build statique)
     }
   }
 
-  .footer__logo { display: inline-flex; margin-bottom: var(--space-lg); }
-  .footer__logo img { width: auto; height: 42px; }
+  .footer__logo { display: inline-flex; margin-bottom: var(--space-lg); --logo-h: 2.7rem; }
 
   .footer__title {
     font-size: var(--fs-h3);

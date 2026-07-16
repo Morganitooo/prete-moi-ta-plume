@@ -5,6 +5,7 @@
  * survol), pliable sur mobile (CLAUDE.md §4 & §5).
  */
 import CallButton from './CallButton.astro';
+import Logo from './Logo.astro';
 import { site } from '../site';
 
 const nav = [
@@ -24,7 +25,7 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
 <header class="header">
   <div class="container header__bar">
     <a href="/" class="header__logo" aria-label={`${site.nom} — accueil`}>
-      <img src="/logo.svg" width="216" height="50" alt={`${site.nom} — ${site.baseline}`} />
+      <Logo />
     </a>
 
     <div class="header__actions">
@@ -90,8 +91,7 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
     padding-block: var(--space-md);
   }
 
-  .header__logo { display: inline-flex; flex-shrink: 0; }
-  .header__logo img { width: auto; height: 42px; }
+  .header__logo { display: inline-flex; flex-shrink: 0; --logo-h: 2.3rem; }
 
   .header__actions {
     display: flex;
@@ -150,7 +150,7 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
   @media (min-width: 62rem) {
     .header__toggle { display: none; }
     .header__bar { padding-block: var(--space-md); }
-    .header__logo img { height: 46px; }
+    .header__logo { --logo-h: 2.6rem; }
 
     .header__nav { border-top: var(--hairline) solid var(--c-sage); }
     #menu-principal {
