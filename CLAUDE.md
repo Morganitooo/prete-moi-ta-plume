@@ -120,15 +120,17 @@ sauge. Aucun dégradé, aucune opacité intermédiaire créant un gris, aucune t
 
 ## 5. Architecture de l'information
 
-Ordre du menu = parcours mental du client. **Ne pas réordonner.**
+Ordre du menu = parcours mental du client (ordre validé par la cliente).
 
-1. **Accueil** — promesse claire + CTA appel immédiat + accès rapide aux prestations.
-2. **Le métier** — expliquer ce qu'est un écrivain public, à qui ça s'adresse, comment ça se passe. Lever les freins.
+1. **Le métier** — expliquer ce qu'est un écrivain public, à qui ça s'adresse, comment ça se passe. Lever les freins.
+2. **Le cabinet** — le lieu, l'ancrage local, la façon de travailler (cabinet/à domicile/à distance selon la réalité). Rassure sur la proximité.
 3. **Prestations** — que fait-on concrètement (courriers administratifs, litiges, récits de vie/biographies, discours, aide aux démarches en ligne…). Un service = un bloc.
-4. **Le cabinet** — le lieu, l'ancrage local, la façon de travailler (cabinet/à domicile/à distance selon la réalité). Rassure sur la proximité.
-5. **Réalisations** — **témoignages clients uniquement**. Aucun document privé.
-6. **Questions fréquentes** — lever les objections (prix, confidentialité, déroulé, délais, déplacement). Marqué en `FAQPage` JSON-LD.
-7. **Contact** — téléphone en gros + formulaire court + adresse + horaires + carte/lien Google Maps.
+4. **Réalisations** — **témoignages clients uniquement**. Aucun document privé.
+5. **Questions fréquentes** — lever les objections (prix, confidentialité, déroulé, délais, déplacement). Marqué en `FAQPage` JSON-LD.
+6. **Contact** — téléphone en gros + formulaire court + adresse + horaires + carte/lien Google Maps.
+
+> L'**Accueil** (`/`) est le bandeau de marque + ce sommaire ; il n'apparaît donc pas
+> comme une entrée du sommaire lui-même (on y est déjà). Le logo y ramène partout.
 
 - **Header** : logo (→ accueil) + navigation + bouton « Appelez-moi ».
 - **Footer** : NAP complet (nom, adresse, téléphone), horaires, rappel zone d'intervention,
