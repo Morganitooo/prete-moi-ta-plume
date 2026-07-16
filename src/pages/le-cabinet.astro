@@ -11,6 +11,8 @@ import PageHeader from '../components/PageHeader.astro';
 import CtaFinal from '../components/CtaFinal.astro';
 import { site } from '../site';
 import cabinetVillage from '../assets/cabinet-village.png';
+import logoCnfdi from '../assets/CNFDI-logo.png';
+import logoSnpce from '../assets/SNPCE-logo.png';
 ---
 
 <BaseLayout
@@ -101,7 +103,46 @@ import cabinetVillage from '../assets/cabinet-village.png';
     </div>
   </section>
 
-  <CtaFinal title="Venez comme vous êtes">
+  <!-- Formation & affiliation — gage de confiance -->
+  <section class="section on-sage">
+    <div class="container">
+      <h2>Une écrivaine formée et affiliée</h2>
+      <p class="credentials__intro">
+        Faire appel à nous, c'est s'adresser à une professionnelle formée au
+        métier et engagée dans son cadre déontologique.
+      </p>
+      <div class="credentials">
+        <figure class="card credential">
+          <Image
+            src={logoCnfdi}
+            alt="Logo du CNFDI, Centre National Privé de Formation à Distance"
+            densities={[1, 2]}
+            width={216}
+            loading="lazy"
+          />
+          <figcaption>
+            Formée au <strong>CNFDI</strong>, Centre National Privé de
+            Formation à Distance.
+          </figcaption>
+        </figure>
+        <figure class="card credential">
+          <Image
+            src={logoSnpce}
+            alt="Logo du SNPCE, Syndicat National des Prestataires et Conseils en Écriture"
+            densities={[1, 2]}
+            width={216}
+            loading="lazy"
+          />
+          <figcaption>
+            Membre du <strong>SNPCE</strong>, Syndicat National des
+            Prestataires et Conseils en Écriture.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <CtaFinal title="Venez comme vous êtes" fond="paper">
     Au cabinet, chez vous ou au téléphone&nbsp;: dites-nous ce qui vous
     arrange, nous nous adaptons.
   </CtaFinal>
@@ -158,5 +199,38 @@ import cabinetVillage from '../assets/cabinet-village.png';
   .communes__plus {
     background: var(--c-paper);
     font-style: italic;
+  }
+
+  /* Formation & affiliation — logos tiers, en couleurs d'origine, posés sur
+     des cartes blanches (motif « feuilles sur le bureau »). */
+  .credentials__intro {
+    margin-top: var(--space-sm);
+    max-width: 50ch;
+  }
+  .credentials {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+    margin-top: var(--space-xl);
+  }
+  @media (min-width: 40rem) {
+    .credentials { grid-template-columns: 1fr 1fr; }
+  }
+  .credential {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    text-align: center;
+  }
+  .credential :global(img) {
+    width: auto;
+    height: 60px;      /* hauteur commune : les deux logos alignés visuellement */
+    max-width: 100%;
+    object-fit: contain;
+  }
+  .credential figcaption {
+    font-size: var(--fs-small);
+    max-width: 34ch;
   }
 </style>
