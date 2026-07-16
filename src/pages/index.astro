@@ -1,27 +1,42 @@
 ---
 /**
- * Accueil — promesse claire + CTA appel immédiat + accès rapide aux
- * prestations (CLAUDE.md §5). JSON-LD ProfessionalService (SEO local).
+ * Accueil — la porte d'entrée du site : bandeau de marque (logo de la carte
+ * de visite + tagline) et sommaire des sections, comme la table des matières
+ * d'un livre. Page indexée (référencement), avec pied de page (NAP, EI,
+ * mentions légales).
+ *
+ * Page volontairement autonome (pas de header collant) pour préserver l'effet
+ * « couverture » ; la navigation se fait par le grand sommaire + le pied de page.
  */
-import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
 import CallButton from '../components/CallButton.astro';
-import CtaFinal from '../components/CtaFinal.astro';
+import Footer from '../components/Footer.astro';
 import { site } from '../site';
-import heroBureau from '../assets/hero-bureau.png';
+
+// Sommaire : les sections de contenu (pas d'« Accueil » — on y est déjà).
+const nav = [
+  { href: '/le-metier', label: 'Le métier', detail: "Ce qu'est un écrivain public" },
+  { href: '/prestations', label: 'Prestations', detail: 'Courriers, récits, démarches…' },
+  { href: '/le-cabinet', label: 'Le cabinet', detail: 'Le lieu, la zone d’intervention' },
+  { href: '/realisations', label: 'Réalisations', detail: 'Ce que les clients en disent' },
+  { href: '/questions-frequentes', label: 'Questions fréquentes', detail: 'Prix, délais, confidentialité' },
+  { href: '/contact', label: 'Contact', detail: 'Téléphone, formulaire' },
+];
+
+const canonical = new URL('/', Astro.site).href;
+const ogImage = new URL('/og-default.jpg', Astro.site).href;
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   name: site.nom,
   description:
-    "Écrivain public à Saint-Vallier-de-Thiey : courriers administratifs, litiges, récits de vie, discours, aide aux démarches en ligne.",
-  url: Astro.site?.href,
+    "Écrivain public et biographe à Saint-Vallier-de-Thiey : courriers administratifs, litiges, récits de vie, discours, aide aux démarches en ligne.",
+  url: canonical,
   telephone: site.tel.href.replace('tel:', ''),
   image: new URL('/logo.svg', Astro.site).href,
   address: {
     '@type': 'PostalAddress',
-    // Décision client : pas d'adresse exacte publiée — ville uniquement
     addressLocality: site.adresse.ville,
     postalCode: site.adresse.codePostal,
     addressCountry: 'FR',
@@ -31,202 +46,174 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout
-  title="Écrivain public à Saint-Vallier-de-Thiey — Prête moi ta plume"
-  description="Écrivain public à Saint-Vallier-de-Thiey (pays de Grasse). Courriers administratifs, litiges, récits de vie, aide aux démarches. Appelez-nous."
->
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
-  <script is:inline slot="head">
-    // Première visite → entrée par la page sommaire (/bienvenue).
-    // Exécuté dans le <head> (aucun flash de contenu). Les robots
-    // d'indexation sont exclus pour préserver le référencement de l'accueil.
-    try {
-      var bot = /bot|crawl|spider|slurp|lighthouse|pagespeed/i.test(navigator.userAgent);
-      if (!bot && !localStorage.getItem('pmtp-deja-venu')) {
-        localStorage.setItem('pmtp-deja-venu', '1');
-        location.replace('/bienvenue');
-      }
-    } catch (e) {
-      /* navigation privée : pas de redirection */
-    }
-  </script>
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="only light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-  <!-- HERO — feuille blanche, trait de plume sous le mot clé -->
-  <section class="section hero">
-    <div class="container hero__grid">
-      <div>
-        <p class="eyebrow">Écrivaine publique à <span class="nowrap">Saint-Vallier-de-Thiey</span></p>
-        <h1 class="hero__title">
-          Vous n'êtes plus <span class="hero__stroke">seul<svg viewBox="0 0 120 14" aria-hidden="true" focusable="false" preserveAspectRatio="none"><path d="M4 10.5 C 30 4.5, 62 3.5, 88 6 C 100 7.2, 110 8.5, 116 9.8" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" /></svg></span> face à vos papiers.
-        </h1>
-        <p class="lead hero__lead">
-          Un courrier administratif à écrire, un litige à régler, une histoire à
-          raconter&nbsp;? Nous mettons les mots justes sur ce qui compte pour vous,
-          en toute confidentialité.
-        </p>
-        <div class="hero__actions">
-          <CallButton variant="solid" />
-          <a class="btn btn--outline" href="/le-metier">Découvrir le métier</a>
+    <title>Écrivain public à Saint-Vallier-de-Thiey — Prête moi ta plume</title>
+    <meta
+      name="description"
+      content="Écrivain public et biographe à Saint-Vallier-de-Thiey (pays de Grasse) : courriers administratifs, litiges, récits de vie, démarches. Appelez-nous."
+    />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="preload" href="/fonts/atkinson-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/fraunces-variable-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Open Graph / partage -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.nom} />
+    <meta property="og:title" content="Écrivain public à Saint-Vallier-de-Thiey — Prête moi ta plume" />
+    <meta property="og:description" content="Écrivaine publique et biographe : courriers, récits de vie, démarches. Appelez-nous." />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+
+  <body class="entree">
+    <main class="entree__main container">
+      <header class="entree__tete">
+        <div class="brand">
+          <img src="/logo-plume.svg" alt="" class="brand__feather" width="36" height="114" />
+          <h1 class="brand__wordmark">
+            <img src="/logo-wordmark.svg" alt="Prête-moi ta plume" width="188" height="41" />
+          </h1>
         </div>
-        <p class="hero__note">Le plus simple pour commencer&nbsp;: un appel. Sans engagement.</p>
-      </div>
-      <div class="hero__media">
-        <Image
-          src={heroBureau}
-          alt="Bureau d'écrivaine publique à Saint-Vallier-de-Thiey : porte-plume sur une feuille vierge, encrier et lunettes près de la fenêtre"
-          widths={[480, 760, 1086, 1448]}
-          sizes="(min-width: 62rem) 44vw, calc(100vw - 3rem)"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
-    </div>
-  </section>
+        <p class="brand__name">Elsa Marcoux, écrivaine publique &amp; biographe</p>
+        <p class="brand__tagline">
+          <span class="brand__tagline-1">sur toute la Côte d'Azur…</span>
+          <span class="brand__tagline-2">et partout où il y a des histoires à écrire.</span>
+        </p>
+      </header>
 
-  <!-- PRESTATIONS (aperçu) — feuilles blanches sur bureau sauge -->
-  <section class="section on-sage">
-    <div class="container">
-      <h2>Ce que nous écrivons pour vous</h2>
-      <div class="cards">
-        <article class="card stack">
-          <h3>Courriers administratifs</h3>
-          <p>Une lettre à la mairie, à la caisse de retraite, à l'assurance&nbsp;? Nous la rédigeons avec vous, mot à mot.</p>
-        </article>
-        <article class="card stack">
-          <h3>Récits de vie</h3>
-          <p>Votre histoire mérite d'être écrite. Pour vous, pour vos enfants, pour ceux qui viendront après.</p>
-        </article>
-        <article class="card stack">
-          <h3>Démarches en ligne</h3>
-          <p>Impôts, CAF, Ameli… Nous faisons les démarches à vos côtés, patiemment, sur nos écrans ou les vôtres.</p>
-        </article>
+      <p class="entree__prompt">Par où souhaitez-vous commencer&nbsp;?</p>
+
+      <nav aria-label="Sommaire du site">
+        <ul class="entree__menu">
+          {nav.map((item) => (
+            <li>
+              <a href={item.href}>
+                <span class="entree__label">{item.label}</span>
+                <span class="entree__detail">{item.detail}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="entree__appel">
+        <p>Le plus simple reste un appel&nbsp;:</p>
+        <CallButton variant="solid" block={true} />
       </div>
-      <div class="cards-more">
-        <a class="btn btn--outline" href="/prestations">Voir toutes les prestations</a>
-      </div>
-    </div>
-  </section>
+    </main>
 
-  <!-- COMMENT ÇA SE PASSE — version courte, renvoie vers Le métier -->
-  <section class="section">
-    <div class="container">
-      <h2>Simple comme un coup de fil</h2>
-      <ol class="mini-steps">
-        <li>
-          <strong>Vous appelez.</strong> Vous expliquez votre situation, avec
-          vos mots. C'est gratuit.
-        </li>
-        <li>
-          <strong>Nous nous rencontrons.</strong> Au cabinet, chez vous ou à
-          distance — comme il vous convient.
-        </li>
-        <li>
-          <strong>Vous repartez avec le bon texte.</strong> Relu ensemble,
-          validé par vous, prêt à l'emploi.
-        </li>
-      </ol>
-      <p class="mini-steps__more">
-        <a href="/le-metier">Voir comment nous travaillons en détail</a>
-      </p>
-    </div>
-  </section>
-
-  <!-- RÉASSURANCE — le bloc encre, un seul, avant le CTA final -->
-  <section class="section on-ink">
-    <div class="container prose">
-      <h2>Discrétion totale, c'est promis</h2>
-      <p>
-        Ce que vous nous confiez ne sort pas d'ici. Pas d'exemple montré, pas
-        de document réutilisé, pas de question indiscrète restée sans réponse.
-        Votre histoire vous appartient — nous ne faisons que l'écrire.
-      </p>
-    </div>
-  </section>
-
-  <CtaFinal title="On s'appelle ?">
-    Racontez-nous ce que vous avez à écrire. En quelques minutes au téléphone,
-    vous saurez si nous pouvons vous aider, comment, et pour quel budget.
-  </CtaFinal>
-</BaseLayout>
+    <Footer />
+  </body>
+</html>
 
 <style>
-  /* --- Hero --- */
-  .hero .eyebrow { margin-bottom: var(--space-lg); }
+  .entree { background: var(--c-paper); }
 
-  .hero__grid {
-    display: grid;
-    gap: var(--space-xl);
-    align-items: center;
-  }
-  @media (min-width: 62rem) {
-    .hero__grid { grid-template-columns: 1.1fr 0.9fr; gap: var(--space-2xl); }
-  }
-
-  /* La photo, posée comme une feuille : trait d'encre fin, coin discret */
-  .hero__media :global(img) {
-    border: 2px solid var(--c-sage);
-    border-radius: var(--radius-card);
-    width: 100%;
-    height: auto;
-  }
-
-  .hero__title { max-width: 14ch; }
-
-  /* Le trait de plume — la signature de la page */
-  .hero__stroke {
-    position: relative;
-    display: inline-block;
-  }
-  .hero__stroke svg {
-    position: absolute;
-    left: -0.06em;
-    right: -0.06em;
-    bottom: -0.14em;
-    width: calc(100% + 0.12em);
-    height: 0.18em;
-  }
-
-  .hero__lead {
-    margin-top: var(--space-lg);
-    max-width: 46ch;
-  }
-
-  .hero__actions {
+  .entree__main {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md);
-    margin-top: var(--space-xl);
+    flex-direction: column;
+    max-width: 44rem;
+    padding-block: var(--space-3xl) var(--space-2xl);
   }
 
-  .hero__note {
+  .entree__tete { text-align: center; color: var(--c-ink); }
+
+  /* Le logo de la carte de visite : plume + « Prête-moi ta plume » manuscrit */
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+  }
+  .brand__feather { height: 132px; width: auto; }
+  .brand__wordmark { margin: 0; line-height: 0; }
+  .brand__wordmark img { height: 92px; width: auto; }
+
+  .brand__name {
+    margin: var(--space-lg) auto 0;
+    font-family: var(--font-title);
+    font-size: var(--fs-h3);
+    font-weight: 520;
+  }
+
+  /* Tagline : décalée, « et partout… » sous la fin de « Azur » */
+  .brand__tagline {
+    display: inline-block;
     margin-top: var(--space-md);
-    font-size: var(--fs-small);
+    font-family: var(--font-title);
+    font-style: italic;
+    font-size: var(--fs-lead);
+    text-align: left;
+  }
+  .brand__tagline-1 { display: block; }
+  .brand__tagline-2 {
+    display: block;
+    margin-top: var(--space-2xs);
+    padding-left: 4em;             /* décale vers la fin de « Azur » */
+    font-size: var(--fs-body);
   }
 
-  @media (min-width: 48rem) {
-    .hero { padding-block: var(--space-3xl); }
+  /* Invite au-dessus du sommaire */
+  .entree__prompt {
+    text-align: center;
+    margin-top: var(--space-2xl);
+    font-size: var(--fs-lead);
   }
 
-  /* --- Cartes prestations --- */
-  .cards {
-    display: grid;
-    gap: var(--space-lg);
-    grid-template-columns: 1fr;
+  @media (max-width: 30rem) {
+    .brand { gap: var(--space-sm); }
+    .brand__feather { height: 92px; }
+    .brand__wordmark img { height: 62px; }
+    .brand__tagline-2 { padding-left: 2em; }
+  }
+
+  /* Le sommaire — grandes entrées, filets fins, comme une table des matières */
+  .entree__menu {
+    list-style: none;
+    padding: 0;
     margin-top: var(--space-xl);
+    border-top: var(--hairline) solid var(--c-ink);
   }
-  @media (min-width: 40rem) {
-    .cards { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
-  }
-
-  .cards-more { margin-top: var(--space-xl); }
-
-  /* --- Mini-étapes --- */
-  .mini-steps {
-    margin-top: var(--space-lg);
-    padding-left: 1.5rem;
-    display: grid;
+  .entree__menu a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
     gap: var(--space-md);
+    flex-wrap: wrap;
+    min-height: var(--tap-min);
+    padding: var(--space-md) var(--space-xs);
+    text-decoration: none;
+    border-bottom: var(--hairline) solid var(--c-ink);
   }
-  .mini-steps li { max-width: var(--measure); padding-left: var(--space-xs); }
-  .mini-steps__more { margin-top: var(--space-lg); }
+  .entree__menu a:hover { background: var(--c-sage); }
+
+  .entree__label {
+    font-family: var(--font-title);
+    font-size: var(--fs-h3);
+    font-weight: 540;
+    line-height: var(--lh-title);
+  }
+  .entree__detail { font-size: var(--fs-small); }
+
+  .entree__appel {
+    margin-top: var(--space-xl);
+    text-align: center;
+  }
+  .entree__appel p { margin-bottom: var(--space-sm); margin-inline: auto; }
+
+  @media (max-width: 40rem) {
+    .entree__detail { display: none; } /* mobile : entrées épurées, libellés seuls */
+  }
 </style>

@@ -14,8 +14,7 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/design-system') &&
         !page.includes('/mentions-legales') &&
-        !page.includes('/confidentialite') &&
-        !page.includes('/bienvenue'),
+        !page.includes('/confidentialite'),
     }),
   ],
   // Astro optimise les images (astro:assets) — .webp + srcset automatiques.
