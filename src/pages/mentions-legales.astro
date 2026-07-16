@@ -22,13 +22,14 @@ import { site } from '../site';
     <div class="container prose">
       <h2>Éditeur du site</h2>
       <p>
-        {site.nom} — [À COMPLÉTER&nbsp;: nom / raison sociale, statut, SIRET]<br />
+        {site.nom} — {site.mentionEILongue}<br />
+        [À COMPLÉTER&nbsp;: SIRET]<br />
         {site.adresse.codePostal} {site.adresse.ville}<br />
         Téléphone&nbsp;: {site.tel.affiche}
       </p>
 
-      <h2>Directeur de la publication</h2>
-      <p>[À COMPLÉTER]</p>
+      <h2>Directrice de la publication</h2>
+      <p>{site.ecrivaine}</p>
 
       <h2>Hébergement</h2>
       <p>[À COMPLÉTER&nbsp;: nom, adresse et téléphone de l'hébergeur]</p>

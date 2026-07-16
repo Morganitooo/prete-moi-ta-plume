@@ -13,8 +13,13 @@ export const site = {
   // « écrivain public » pour le métier générique et le SEO (title/meta/JSON-LD).
   baseline: 'Écrivaine publique à Saint-Vallier-de-Thiey',
 
-  // Nom de l'écrivaine — si communiqué. [À COMPLÉTER]
-  ecrivaine: '',
+  // Nom de l'écrivaine (source : carte de visite, confirmé)
+  ecrivaine: 'Elsa Marcoux',
+
+  // Mention légale obligatoire (décret 2022-725) : le nom de l'entrepreneure
+  // individuelle doit être accompagné de « EI » sur tous les documents pros.
+  mentionEI: 'Elsa Marcoux, EI',
+  mentionEILongue: 'Elsa Marcoux, entrepreneure individuelle (EI)',
 
   // Téléphone — priorité de conversion n°1.
   tel: {
