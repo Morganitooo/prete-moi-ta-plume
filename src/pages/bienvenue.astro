@@ -45,10 +45,20 @@ const nav = [
   <body class="entree">
     <main class="entree__main container">
       <header class="entree__tete">
-        <img src="/logo.svg" width="216" height="50" alt={`${site.nom} — ${site.baseline}`} class="entree__logo" />
-        <p class="eyebrow">Écrivaine publique à <span class="nowrap">Saint-Vallier-de-Thiey</span></p>
-        <h1 class="entree__mot">Par où souhaitez-vous commencer&nbsp;?</h1>
+        <div class="brand">
+          <img src="/logo-plume.svg" alt="" class="brand__feather" width="36" height="114" />
+          <h1 class="brand__wordmark">
+            <img src="/logo-wordmark.svg" alt="Prête-moi ta plume" width="188" height="41" />
+          </h1>
+        </div>
+        <p class="brand__name">Elsa Marcoux, écrivaine publique &amp; biographe</p>
+        <p class="brand__tagline">
+          <span class="brand__tagline-1">sur toute la Côte d'Azur…</span>
+          <span class="brand__tagline-2">et partout où il y a des histoires à écrire.</span>
+        </p>
       </header>
+
+      <p class="entree__prompt">Par où souhaitez-vous commencer&nbsp;?</p>
 
       <nav aria-label="Sommaire du site">
         <ul class="entree__menu">
@@ -83,11 +93,56 @@ const nav = [
     padding-block: var(--space-xl);
   }
 
-  .entree__tete { text-align: center; }
-  .entree__logo { margin-inline: auto; height: 46px; width: auto; margin-bottom: var(--space-xl); }
-  /* La question d'accueil sert de titre principal (h1) — taille mesurée */
-  .entree__mot { margin-top: var(--space-sm); font-size: var(--fs-h2); font-weight: 540; }
-  .entree__tete p { margin-inline: auto; }
+  .entree__tete { text-align: center; color: var(--c-ink); }
+
+  /* Le logo de la carte de visite : plume + « Prête-moi ta plume » manuscrit */
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+  }
+  .brand__feather { height: 132px; width: auto; }
+  .brand__wordmark { margin: 0; line-height: 0; }
+  .brand__wordmark img { height: 92px; width: auto; }
+
+  .brand__name {
+    margin: var(--space-lg) auto 0;
+    font-family: var(--font-title);
+    font-size: var(--fs-h3);
+    font-weight: 520;
+  }
+
+  /* Tagline : décalée, « et partout… » sous la fin de « Azur » */
+  .brand__tagline {
+    display: inline-block;
+    margin-top: var(--space-md);
+    font-family: var(--font-title);
+    font-style: italic;
+    font-size: var(--fs-lead);
+    text-align: left;
+  }
+  .brand__tagline-1 { display: block; }
+  .brand__tagline-2 {
+    display: block;
+    margin-top: var(--space-2xs);
+    padding-left: 4em;             /* décale vers la fin de « Azur » */
+    font-size: var(--fs-body);
+  }
+
+  /* Invite au-dessus du sommaire */
+  .entree__prompt {
+    text-align: center;
+    margin-top: var(--space-2xl);
+    font-size: var(--fs-lead);
+  }
+
+  @media (max-width: 30rem) {
+    .brand { gap: var(--space-sm); }
+    .brand__feather { height: 92px; }
+    .brand__wordmark img { height: 62px; }
+    .brand__tagline-2 { padding-left: 2em; }
+  }
 
   /* Le sommaire — grandes entrées, filets fins, comme une table des matières */
   .entree__menu {
