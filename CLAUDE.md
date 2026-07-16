@@ -37,7 +37,7 @@ Site vitrine pour une **écrivaine publique** installée à **Saint-Vallier-de-T
 | **Typographie** | Titres = **Fraunces** (serif chaleureux, évoque la plume). Corps = **Atkinson Hyperlegible** (conçue pour la basse vision, idéale seniors). |
 | **Page Réalisations** | **Témoignages clients uniquement** (avec accord). Aucun contenu de courrier privé montré — confidentialité absolue. |
 | **Images** | **Générées sur mesure via Nano Banana 2** (skill locale), alignées sur la palette. Aucune banque d'images générique. |
-| **Couleurs** | Trois couleurs fixes, **sans dégradé ni variation** : blanc `#ffffff` (le papier, fond dominant), `#353531` (l'encre) et `#dbe7dc` (la sauge, accent). |
+| **Couleurs** | Trois couleurs fixes, **sans dégradé ni variation** : blanc `#ffffff` (le papier, fond dominant), `#231f20` (l'encre) et `#dafae3` (la sauge, accent). |
 | **Approche** | Mobile-first, SEO local prioritaire. |
 
 ---
@@ -52,17 +52,17 @@ sauge. Aucun dégradé, aucune opacité intermédiaire créant un gris, aucune t
 | Rôle | Valeur | Usage |
 |---|---|---|
 | **Papier** | `#ffffff` | **Fond dominant** des pages, cartes (« feuilles »), texte sur fond encre. |
-| **Encre** | `#353531` | Texte, boutons pleins, traits/filets fins, logo, pied de page. |
-| **Sauge** | `#dbe7dc` | Bandes de section d'ambiance, accents doux, survols, filets discrets. |
+| **Encre** | `#231f20` | Texte, boutons pleins, traits/filets fins, logo, pied de page. |
+| **Sauge** | `#dafae3` | Bandes de section d'ambiance, accents doux, survols, filets discrets. |
 
-- Contrastes : encre/papier ≈ **12,6:1**, encre/sauge ≈ **11:1** → WCAG **AAA** partout.
+- Contrastes : encre/papier ≈ **16:1**, encre/vert ≈ **14,6:1** → WCAG **AAA** partout.
 - **Interdit :** gris intermédiaires, ombres colorées floues, transparences qui simulent une
   4ᵉ couleur, texte « gris clair » pour du secondaire.
 - **Le blanc domine.** La sauge rythme la page par bandes de section ; le bloc encre est
   **rare** (pied de page, un appel à l'action fort) — jamais deux blocs sombres de suite.
 - **La hiérarchie ne vient PAS de la couleur** mais de : la **taille de police**, la
   **graisse**, l'**espace blanc**, et le **rythme des bandes** (papier ↔ sauge ↔ encre).
-- Traits/filets autorisés en `#353531` (fins, 1px) ou en sauge ; jamais de flou coloré.
+- Traits/filets autorisés en `#231f20` (fins, 1px) ou en sauge ; jamais de flou coloré.
 - Motif signature : **cartes blanches posées sur bande sauge** — des feuilles sur le bureau.
 - **Nuance images** : les visuels générés (photographiques/d'ambiance) peuvent contenir des
   tons naturels *muets et harmonisés* à la palette (voir §7), mais **l'UI, elle, reste
@@ -70,11 +70,11 @@ sauge. Aucun dégradé, aucune opacité intermédiaire créant un gris, aucune t
 
 ### 3.2 Logo
 
-- Fichier : `assets/logo.svg` — logotype monochrome `#353531` « PRÊTE MOI TA PLUME » avec
+- Fichier : `assets/logo.svg` — logotype monochrome `#231f20` « PRÊTE MOI TA PLUME » avec
   plume/oiseau stylisé.
-- Se pose naturellement sur fond papier `#ffffff` ou sauge `#dbe7dc`.
-- Sur fond encre `#353531` : utiliser la **variante inversée** (`public/logo-inverse.svg`,
-  teinte `#dbe7dc`) — ne jamais poser le logo sombre sur fond sombre.
+- Se pose naturellement sur fond papier `#ffffff` ou sauge `#dafae3`.
+- Sur fond encre `#231f20` : utiliser la **variante inversée** (`public/logo-inverse.svg`,
+  teinte `#dafae3`) — ne jamais poser le logo sombre sur fond sombre.
 - Toujours accompagné d'un `alt="Prête moi ta plume — écrivain public à Saint-Vallier-de-Thiey"`.
 - Le logo dans le header est un **lien vers l'accueil**.
 
@@ -106,7 +106,7 @@ sauge. Aucun dégradé, aucune opacité intermédiaire créant un gris, aucune t
   dans le header et/ou une barre d'action fixe en bas sur mobile.
 - **Pas d'animation automatique** : ni carrousel qui défile seul, ni texte qui bouge, ni
   autoplay vidéo. Respecter `prefers-reduced-motion`.
-- **Feedback évident** : états `:focus` très visibles (contour net `#353531`), boutons au
+- **Feedback évident** : états `:focus` très visibles (contour net `#231f20`), boutons au
   `:active` clairement enfoncés. Focus visible au clavier obligatoire.
 - **HTML sémantique** : `<header> <nav> <main> <section> <footer>`, un seul `<h1>` par page,
   hiérarchie de titres continue.
@@ -202,14 +202,14 @@ d'images générique.
 
 ### 7.3 Direction artistique — cohérence avec la palette
 
-Les visuels doivent **s'harmoniser** avec `#353531` (charbon) et `#dbe7dc` (vert sauge
+Les visuels doivent **s'harmoniser** avec `#231f20` (charbon) et `#dafae3` (vert sauge
 clair), sans jamais introduire de couleurs criardes concurrentes.
 
 - **Ambiance** : chaleureuse, humaine, calme, artisanale, lumière naturelle douce.
 - **Palette du visuel** : tons sourds et naturels — sauge, vert-de-gris, crème, beige,
   charbon, bois clair. **Éviter** rouges/bleus/jaunes saturés.
 - **Option duotone** : pour les visuels décoratifs (pas les photos d'ambiance réalistes), on
-  peut demander/appliquer un rendu **duotone `#353531` / `#dbe7dc`** afin de rester strictement
+  peut demander/appliquer un rendu **duotone `#231f20` / `#dafae3`** afin de rester strictement
   dans la palette.
 - **Sujets** : plumes, encre, mains qui écrivent, bureau/cabinet accueillant, papier et
   courrier (jamais lisible/identifiable), paysages du pays de Grasse/arrière-pays PACA,
@@ -222,7 +222,7 @@ clair), sans jamais introduire de couleurs criardes concurrentes.
 **Squelette de prompt à réutiliser :**
 > « Create an image of: <sujet>. Style: photographie naturelle douce et artisanale / ou
 > illustration duotone. Mood: chaleureux, calme, humain, rassurant. Color palette: tons
-> sourds sauge, crème, charbon, harmonisés avec #dbe7dc et #353531, aucune couleur saturée.
+> sourds sauge, crème, charbon, harmonisés avec #dafae3 et #231f20, aucune couleur saturée.
 > Lighting: lumière naturelle douce. Composition: <cadrage>. Avoid: texte, logos, watermark,
 > visages identifiables, esthétique stock corporate, couleurs vives. »
 
@@ -264,9 +264,9 @@ personnelle de client. Le papier/courrier reste **flou ou générique**.
 - Tokens de design en **CSS custom properties**, point de vérité unique :
   ```css
   :root {
-    --c-ink: #353531;     /* l'encre — texte, boutons, traits */
+    --c-ink: #231f20;     /* l'encre — texte, boutons, traits */
     --c-paper: #ffffff;   /* le papier — fond dominant, cartes */
-    --c-sage: #dbe7dc;    /* la sauge — bandes d'ambiance, accents */
+    --c-sage: #dafae3;    /* la sauge — bandes d'ambiance, accents */
     --font-title: "Fraunces", Georgia, serif;
     --font-body: "Atkinson Hyperlegible", Verdana, sans-serif;
     --fs-body: 1.125rem;      /* 18px */

@@ -38,6 +38,8 @@ const ogImage = new URL(image, Astro.site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Site clair, toujours — bloque le thème sombre forcé des mobiles -->
+    <meta name="color-scheme" content="only light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <title>{title}</title>

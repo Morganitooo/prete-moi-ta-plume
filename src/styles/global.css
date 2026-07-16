@@ -4,8 +4,8 @@
 
    TRILOGIE DU MÉTIER :
      le PAPIER  (#ffffff) — fond dominant, cartes, respiration ;
-     l'ENCRE    (#353531) — texte, boutons, traits ;
-     la SAUGE   (#dbe7dc) — bandes d'ambiance, accents doux, le calme du lieu.
+     l'ENCRE    (#231f20) — texte, boutons, traits ;
+     le VERT    (#dafae3) — bandes d'ambiance, accents doux, le calme du lieu.
    Pas de 4ᵉ couleur, pas de gris intermédiaire, pas de dégradé.
    La hiérarchie vient de la taille, de la graisse et de l'espace blanc.
    ========================================================================== */
@@ -78,10 +78,11 @@
    2. Design tokens
    ------------------------------------------------------------------------- */
 :root {
-  /* Couleurs — LES TROIS SEULES autorisées dans l'UI */
-  --c-ink: #353531;     /* l'encre — texte, boutons, traits */
+  /* Couleurs — LES TROIS SEULES autorisées dans l'UI.
+     Valeurs extraites de la carte de visite de la cliente (référence brand). */
+  --c-ink: #231f20;     /* l'encre — texte, boutons, traits (noir de la carte) */
   --c-paper: #ffffff;   /* le papier — fond dominant, cartes */
-  --c-sage: #dbe7dc;    /* la sauge — bandes d'ambiance, accents */
+  --c-sage: #dafae3;    /* le vert — bandes d'ambiance, accents (vert de la carte) */
 
   /* Alias de compatibilité (anciens noms) */
   --c-dark: var(--c-ink);
@@ -137,6 +138,9 @@
 * { margin: 0; }
 
 html {
+  /* Site clair, toujours : empêche les navigateurs mobiles (Chrome Android,
+     Samsung Internet…) de forcer un thème sombre inversé. */
+  color-scheme: only light;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
@@ -330,7 +334,8 @@ strong, b { font-weight: 700; }
    ------------------------------------------------------------------------- */
 .card {
   background: var(--c-paper);
-  border: var(--hairline) solid var(--c-ink);
+  /* « encadrés verts » — demande cliente (carte de visite) */
+  border: 2px solid var(--c-sage);
   border-radius: var(--radius-card);
   padding: var(--space-xl) var(--space-lg);
 }
