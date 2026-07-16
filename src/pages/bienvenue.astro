@@ -46,9 +46,8 @@ const nav = [
     <main class="entree__main container">
       <header class="entree__tete">
         <img src="/logo.svg" width="216" height="50" alt={`${site.nom} — ${site.baseline}`} class="entree__logo" />
-        <h1>Bienvenue</h1>
         <p class="eyebrow">Écrivaine publique à <span class="nowrap">Saint-Vallier-de-Thiey</span></p>
-        <p class="entree__mot">Par où souhaitez-vous commencer&nbsp;?</p>
+        <h1 class="entree__mot">Par où souhaitez-vous commencer&nbsp;?</h1>
       </header>
 
       <nav aria-label="Sommaire du site">
@@ -86,9 +85,8 @@ const nav = [
 
   .entree__tete { text-align: center; }
   .entree__logo { margin-inline: auto; height: 46px; width: auto; margin-bottom: var(--space-xl); }
-  .entree__tete h1 { font-weight: 540; }
-  .entree__tete .eyebrow { margin-top: var(--space-xs); }
-  .entree__mot { margin-top: var(--space-lg); }
+  /* La question d'accueil sert de titre principal (h1) — taille mesurée */
+  .entree__mot { margin-top: var(--space-sm); font-size: var(--fs-h2); font-weight: 540; }
   .entree__tete p { margin-inline: auto; }
 
   /* Le sommaire — grandes entrées, filets fins, comme une table des matières */
