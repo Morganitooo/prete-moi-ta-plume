@@ -8,10 +8,12 @@
  * Page volontairement autonome (pas de header collant) pour préserver l'effet
  * « couverture » ; la navigation se fait par le grand sommaire + le pied de page.
  */
+import { Image } from 'astro:assets';
 import '../styles/global.css';
 import CallButton from '../components/CallButton.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../site';
+import heroBureau from '../assets/hero-bureau.png';
 
 // Sommaire : les sections de contenu (pas d'« Accueil » — on y est déjà).
 const nav = [
@@ -78,21 +80,52 @@ const jsonLd = {
   </head>
 
   <body class="entree">
-    <main class="entree__main container">
-      <header class="entree__tete">
-        <div class="brand">
-          <img src="/logo-plume.svg" alt="" class="brand__feather" width="36" height="114" />
-          <h1 class="brand__wordmark">
-            <img src="/logo-wordmark.svg" alt="Prête-moi ta plume" width="188" height="41" />
-          </h1>
-        </div>
-        <p class="brand__name">Elsa Marcoux, écrivaine publique &amp; biographe</p>
-        <p class="brand__tagline">
-          <span class="brand__tagline-1">sur toute la Côte d'Azur…</span>
-          <span class="brand__tagline-2">et partout où il y a des histoires à écrire.</span>
-        </p>
-      </header>
+    <main>
+      <div class="container entree__brand">
+        <header class="entree__tete">
+          <div class="brand">
+            <img src="/logo-plume.svg" alt="" class="brand__feather" width="36" height="114" />
+            <h1 class="brand__wordmark">
+              <img src="/logo-wordmark.svg" alt="Prête-moi ta plume" width="188" height="41" />
+            </h1>
+          </div>
+          <p class="brand__name">Elsa Marcoux, écrivaine publique &amp; biographe</p>
+          <p class="brand__tagline">
+            <span class="brand__tagline-1">sur toute la Côte d'Azur…</span>
+            <span class="brand__tagline-2">et partout où il y a des histoires à écrire.</span>
+          </p>
+        </header>
+      </div>
 
+      <!-- HERO — texte à gauche, photo fondue à droite (sans cadre) -->
+      <section class="hero">
+        <div class="hero__text">
+          <h2 class="hero__title">Chaque histoire mérite les mots justes.</h2>
+          <p class="hero__lead">
+            Écrivaine publique et biographe, je mets ma plume au service de vos
+            émotions, de vos souvenirs et de vos projets.
+          </p>
+          <p class="hero__signature">
+            Parce que chaque vie mérite d'être racontée avec justesse et sensibilité.
+          </p>
+          <div class="hero__actions">
+            <CallButton variant="solid" />
+            <a class="btn btn--outline" href="/contact">Échangeons sur votre projet</a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <Image
+            src={heroBureau}
+            alt="Bureau d'écrivaine publique : porte-plume sur une feuille vierge, encrier et lunettes près de la fenêtre"
+            widths={[480, 760, 1086, 1448]}
+            sizes="(min-width: 62rem) 50vw, 100vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </section>
+
+      <div class="container entree__sommaire">
       <p class="entree__prompt">Par où souhaitez-vous commencer&nbsp;?</p>
 
       <nav aria-label="Sommaire du site">
@@ -108,9 +141,10 @@ const jsonLd = {
         </ul>
       </nav>
 
-      <div class="entree__appel">
-        <p>Le plus simple reste un appel&nbsp;:</p>
-        <CallButton variant="solid" block={true} />
+        <div class="entree__appel">
+          <p>Le plus simple reste un appel&nbsp;:</p>
+          <CallButton variant="solid" block={true} />
+        </div>
       </div>
     </main>
 
@@ -121,11 +155,91 @@ const jsonLd = {
 <style>
   .entree { background: var(--c-paper); }
 
-  .entree__main {
+  .entree__brand { max-width: 44rem; padding-block: var(--space-3xl) 0; }
+  .entree__sommaire {
     display: flex;
     flex-direction: column;
     max-width: 44rem;
-    padding-block: var(--space-3xl) var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  /* ----------------------------------------------------------------------
+     HERO — texte + photo qui se fond dans le papier (aucun cadre)
+     ------------------------------------------------------------------- */
+  .hero {
+    display: grid;
+    gap: var(--space-lg);
+    align-items: center;
+    max-width: 66rem;
+    margin: var(--space-2xl) auto;
+  }
+
+  .hero__text {
+    max-width: 44rem;
+    margin-inline: auto;
+    padding-inline: var(--space-lg);
+  }
+
+  .hero__title {
+    font-size: var(--fs-h2);
+    font-weight: 540;
+    max-width: 16ch;
+  }
+  .hero__lead {
+    margin-top: var(--space-md);
+    font-size: var(--fs-lead);
+    max-width: 44ch;
+  }
+  .hero__signature {
+    margin-top: var(--space-md);
+    font-family: var(--font-title);
+    font-style: italic;
+    max-width: 44ch;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+  }
+
+  /* Le fondu : l'image s'efface progressivement dans le fond papier.
+     Mobile : fondu par le haut (l'image est sous le texte). */
+  .hero__media :global(img) {
+    width: 100%;
+    height: auto;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 32%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 32%);
+  }
+
+  @media (min-width: 62rem) {
+    .hero {
+      /* Pleine largeur : l'image file jusqu'au bord droit de l'écran,
+         il n'y a donc aucun bord net — elle se fond dans le papier. */
+      max-width: none;
+      /* Colonne 1 = gouttière calée sur la grille du sommaire (44rem centré) ;
+         le column-gap fournit le padding, d'où l'alignement exact du texte. */
+      grid-template-columns:
+        calc((100% - 44rem) / 2)
+        minmax(0, 26rem)
+        1fr;
+      column-gap: var(--space-xl);
+      margin-block: var(--space-3xl);
+    }
+    .hero__text { grid-column: 2; max-width: none; margin: 0; padding-inline: 0; }
+    .hero__media { grid-column: 3; }
+    /* Desktop : fondu par la gauche (vers le texte) + haut/bas adoucis,
+       pour qu'aucun bord ne soit net. */
+    .hero__media :global(img) {
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 45%),
+        linear-gradient(to bottom, transparent 0%, #000 15%, #000 85%, transparent 100%);
+      mask-image:
+        linear-gradient(to right, transparent 0%, #000 45%),
+        linear-gradient(to bottom, transparent 0%, #000 15%, #000 85%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
+    }
   }
 
   .entree__tete { text-align: center; color: var(--c-ink); }
