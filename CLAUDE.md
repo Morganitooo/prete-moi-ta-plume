@@ -13,10 +13,12 @@ Site vitrine pour une **écrivaine publique** installée à **Saint-Vallier-de-T
 
 **Principes fondateurs**
 
-- **Le métier avant la personne.** L'écrivaine ne veut pas se mettre en avant. On valorise
-  le *service rendu* et le *métier d'écrivain public*, pas une biographie ou une image
-  personnelle. Ton à la première personne du métier (« nous vous accompagnons »,
-  « votre courrier »), jamais un culte de personnalité.
+- **Le métier avant la personne.** On valorise le *service rendu* et le *métier
+  d'écrivain public*, pas une biographie. **Ton à la première personne du singulier**
+  (« **je** vous accompagne », « votre courrier ») — décision cliente : elle parle en
+  son nom, mais toujours orienté vers le client, jamais un culte de personnalité.
+  Le « nous » n'est employé que lorsqu'il désigne *elle et le client* (« nous
+  trouverons les mots ensemble »).
 - **Public cible = personne âgée.** L'expérience doit être **ultra-lisible, sans friction,
   aux interactions évidentes et à la navigation très simple.** C'est la contrainte n°1 qui
   arbitre tous les autres choix.
@@ -303,7 +305,8 @@ personnelle de client. Le papier/courrier reste **flou ou générique**.
   public** » pour le métier en général (« un écrivain public rédige… ») et pour les
   emplacements SEO invisibles (`<title>`, meta description, JSON-LD) — c'est la forme
   recherchée sur Google.
-- Ton **chaleureux, rassurant, professionnel**. Vouvoiement. Orienté bénéfice client
+- Ton **chaleureux, rassurant, professionnel**. Vouvoiement du client, et **« je »
+  pour l'écrivaine** (« je rédige », « appelez-moi »). Orienté bénéfice client
   (« vous n'êtes plus seul face à vos papiers ») plutôt que description technique.
 - Chaque page se termine par un **rappel d'action** (appeler / contacter).
 - Rédaction naturelle (éviter le style « IA » : triades décoratives, remplissage, formules
