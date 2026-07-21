@@ -1,29 +1,58 @@
 ---
 /**
- * Accueil — la porte d'entrée du site : bandeau de marque (logo de la carte
- * de visite + tagline) et sommaire des sections, comme la table des matières
- * d'un livre. Page indexée (référencement), avec pied de page (NAP, EI,
- * mentions légales).
+ * Accueil — inspirée de l'ébauche validée par la cliente :
+ * en-tête de marque + coordonnées, navigation, hero avec photo en fondu,
+ * bandeau de réassurance, aperçu des prestations, « pourquoi me choisir »,
+ * témoignages (dès qu'ils existent), rappel d'appel, pied de page.
  *
- * Page volontairement autonome (pas de header collant) pour préserver l'effet
- * « couverture » ; la navigation se fait par le grand sommaire + le pied de page.
+ * Page autonome (pas de header collant) pour garder l'effet « couverture ».
  */
 import { Image } from 'astro:assets';
 import '../styles/global.css';
 import CallButton from '../components/CallButton.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../site';
+import { prestations } from '../prestations';
 import heroBureau from '../assets/hero-bureau.png';
 
-// Sommaire : les sections de contenu (pas d'« Accueil » — on y est déjà).
 const nav = [
-  { href: '/le-metier', label: 'Le métier', detail: "Ce qu'est un écrivain public" },
-  { href: '/le-cabinet', label: 'Le cabinet', detail: 'Le lieu, la zone d’intervention' },
-  { href: '/prestations', label: 'Prestations', detail: 'Courriers, récits, démarches…' },
-  { href: '/realisations', label: 'Réalisations', detail: 'Ce que les clients en disent' },
-  { href: '/questions-frequentes', label: 'Questions fréquentes', detail: 'Prix, délais, confidentialité' },
-  { href: '/contact', label: 'Contact', detail: 'Téléphone, formulaire' },
+  { href: '/le-metier', label: 'Le métier' },
+  { href: '/le-cabinet', label: 'Le cabinet' },
+  { href: '/prestations', label: 'Les prestations' },
+  { href: '/realisations', label: 'Les réalisations' },
+  { href: '/questions-frequentes', label: 'Questions fréquentes' },
+  { href: '/contact', label: 'Contact' },
 ];
+
+// Bandeau de réassurance
+const reassurances = [
+  { icone: 'M12 3l7 3v5.5c0 4.3-3 8.2-7 9.5-4-1.3-7-5.2-7-9.5V6l7-3z M9 12l2 2 4-4', texte: 'Entretiens confidentiels' },
+  { icone: 'M6 3h9l3 3v15H6z M15 3v3h3 M9 12h6 M9 16h4', texte: 'Devis gratuit' },
+  { icone: 'M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z M12 10.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4z', texte: "Sur toute la Côte d'Azur et à distance" },
+];
+
+// Pourquoi me choisir
+const valeurs = [
+  {
+    icone: 'M9.5 20.5c-1.6 0-2.2-1-2.2-2.6 0-2.2-1.3-2.9-1.3-6.4a6 6 0 1 1 12 0c0 2.3-1.3 3.4-2.5 4.4-1 .8-1.7 1.4-1.7 2.4 M10 10.2a2.3 2.3 0 1 1 3.2 2.1',
+    titre: 'Écoute',
+    texte: 'Une écoute attentive et bienveillante, pour comprendre votre histoire et vos besoins.',
+  },
+  {
+    icone: 'M12 20.3l-1.1-1C6.1 15 3 12.2 3 8.8A4.3 4.3 0 0 1 7.3 4.5c1.5 0 2.9.7 3.7 1.8.8-1.1 2.2-1.8 3.7-1.8A4.3 4.3 0 0 1 19 8.8c0 3.4-3.1 6.2-7.9 10.5l-1.1 1z',
+    titre: 'Bienveillance',
+    texte: 'Un accompagnement humain, dans le respect de votre sensibilité et de votre rythme.',
+  },
+  {
+    icone: 'M6 10.5h12v9.5H6z M8.5 10.5V7.4a3.5 3.5 0 0 1 7 0v3.1 M12 14.5v2',
+    titre: 'Confidentialité',
+    texte: "Vos histoires sont précieuses : je m'engage à les traiter avec la plus grande discrétion.",
+  },
+];
+
+// [À COMPLÉTER] Témoignages réels, avec accord écrit. La section reste
+// masquée tant que le tableau est vide — aucun faux témoignage.
+const temoignages: { texte: string; signature: string }[] = [];
 
 const canonical = new URL('/', Astro.site).href;
 const ogImage = new URL('/og-default.jpg', Astro.site).href;
@@ -66,7 +95,6 @@ const jsonLd = {
     <link rel="preload" href="/fonts/atkinson-400-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/fraunces-variable-latin.woff2" as="font" type="font/woff2" crossorigin />
 
-    <!-- Open Graph / partage -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.nom} />
     <meta property="og:title" content="Écrivain public à Saint-Vallier-de-Thiey — Prête moi ta plume" />
@@ -80,72 +108,166 @@ const jsonLd = {
   </head>
 
   <body class="entree">
-    <main>
-      <div class="container entree__brand">
-        <header class="entree__tete">
+    <!-- ============ EN-TÊTE : marque à gauche, coordonnées à droite ======= -->
+    <header class="entete">
+      <div class="container entete__grid">
+        <div class="entete__marque">
           <div class="brand">
             <img src="/logo-plume.svg" alt="" class="brand__feather" width="36" height="114" />
             <h1 class="brand__wordmark">
               <img src="/logo-wordmark.svg" alt="Prête-moi ta plume" width="188" height="41" />
             </h1>
           </div>
-          <p class="brand__name">Elsa Marcoux, écrivaine publique &amp; biographe</p>
-          <p class="brand__tagline">
-            <span class="brand__tagline-1">sur toute la Côte d'Azur…</span>
-            <span class="brand__tagline-2">et partout où il y a des histoires à écrire.</span>
-          </p>
-        </header>
+          <p class="brand__name">Elsa Marcoux</p>
+          <p class="brand__role">Écrivaine publique &amp; biographe</p>
+        </div>
+
+        <ul class="entete__contact">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2Z" /></svg>
+            <a href={site.tel.href}>{site.tel.affiche}</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z M12 10.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+            <span>{site.adresse.ville} · Côte d'Azur</span>
+          </li>
+        </ul>
       </div>
 
-      <!-- HERO — texte à gauche, photo fondue à droite (sans cadre) -->
-      <section class="hero">
-        <div class="hero__text">
-          <h2 class="hero__title">Chaque histoire mérite les mots justes.</h2>
-          <p class="hero__lead">
-            Écrivaine publique et biographe, je mets ma plume au service de vos
-            émotions, de vos souvenirs et de vos projets.
-          </p>
-          <p class="hero__signature">
-            Parce que chaque vie mérite d'être racontée avec justesse et sensibilité.
-          </p>
-          <div class="hero__actions">
-            <CallButton variant="solid" />
-            <a class="btn btn--outline" href="/contact">Échangeons sur votre projet</a>
+      <p class="entete__tagline">
+        Sur toute la Côte d'Azur… et partout où il y a des histoires à écrire.
+      </p>
+    </header>
+
+    <!-- ============ NAVIGATION ============ -->
+    <nav class="navbar" aria-label="Navigation principale">
+      <ul class="container navbar__list">
+        {nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <main>
+      <!-- ============ HERO ============ -->
+      <section class="hero-band on-sage">
+        <div class="hero">
+          <div class="hero__text">
+            <h2 class="hero__title">Chaque histoire mérite les mots justes.</h2>
+            <p class="hero__lead">
+              Écrivaine publique et biographe, je mets ma plume au service de vos
+              émotions, de vos souvenirs et de vos projets.
+            </p>
+            <p class="hero__signature">
+              Parce que chaque vie mérite d'être racontée avec justesse et sensibilité.
+            </p>
+            <div class="hero__actions">
+              <CallButton variant="solid" />
+              <a class="btn btn--outline" href="/contact">Échangeons sur votre projet</a>
+            </div>
           </div>
-        </div>
-        <div class="hero__media">
-          <Image
-            src={heroBureau}
-            alt="Bureau d'écrivaine publique : porte-plume sur une feuille vierge, encrier et lunettes près de la fenêtre"
-            widths={[480, 760, 1086, 1448]}
-            sizes="(min-width: 62rem) 50vw, 100vw"
-            loading="eager"
-            fetchpriority="high"
-          />
+          <div class="hero__media">
+            <Image
+              src={heroBureau}
+              alt="Bureau d'écrivaine publique : porte-plume sur une feuille vierge, encrier et lunettes près de la fenêtre"
+              widths={[480, 760, 1086, 1448]}
+              sizes="(min-width: 62rem) 50vw, 100vw"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
         </div>
       </section>
 
-      <div class="container entree__sommaire">
-      <p class="entree__prompt">Par où souhaitez-vous commencer&nbsp;?</p>
-
-      <nav aria-label="Sommaire du site">
-        <ul class="entree__menu">
-          {nav.map((item) => (
+      <!-- ============ RÉASSURANCE ============ -->
+      <section class="reassurance" aria-label="Ce qui est garanti">
+        <ul class="container reassurance__list">
+          {reassurances.map((r) => (
             <li>
-              <a href={item.href}>
-                <span class="entree__label">{item.label}</span>
-                <span class="entree__detail">{item.detail}</span>
-              </a>
+              <span class="reassurance__icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d={r.icone} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span>{r.texte}</span>
             </li>
           ))}
         </ul>
-      </nav>
+      </section>
 
-        <div class="entree__appel">
-          <p>Le plus simple reste un appel&nbsp;:</p>
-          <CallButton variant="solid" block={true} />
+      <!-- ============ PRESTATIONS ============ -->
+      <section class="section">
+        <div class="container">
+          <h2 class="titre-orne text-center"><em>Les</em> prestations</h2>
+          <div class="presta-grid">
+            {prestations.map((p) => (
+              <article class="presta-carte">
+                <span class="presta-carte__icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d={p.icone} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <h3>{p.titre}</h3>
+                <p>{p.court}</p>
+              </article>
+            ))}
+          </div>
+          <p class="presta-grid__lien text-center">
+            <a href="/prestations">Voir toutes les prestations →</a>
+          </p>
         </div>
-      </div>
+      </section>
+
+      <!-- ============ POURQUOI ME CHOISIR ============ -->
+      <section class="section on-sage">
+        <div class="container">
+          <h2 class="titre-orne text-center"><em>Pourquoi</em> me choisir&nbsp;?</h2>
+          <div class="valeurs">
+            {valeurs.map((v) => (
+              <article class="valeur">
+                <span class="valeur__icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d={v.icone} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <h3>{v.titre}</h3>
+                <p>{v.texte}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ TÉMOIGNAGES (masqués tant qu'il n'y en a pas) ====== -->
+      {temoignages.length > 0 && (
+        <section class="section">
+          <div class="container">
+            <h2 class="titre-orne text-center"><em>Ils</em> m'ont confié leur histoire</h2>
+            <div class="temoignages">
+              {temoignages.map((t) => (
+                <figure class="card temoignage">
+                  <blockquote><p>«&nbsp;{t.texte}&nbsp;»</p></blockquote>
+                  <figcaption>— {t.signature}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- ============ RAPPEL D'APPEL ============ -->
+      <section class="section appel-final">
+        <div class="container text-center">
+          <h2>Parlons de votre projet</h2>
+          <p class="appel-final__texte">
+            Le plus simple reste un appel&nbsp;: vous expliquez, j'écoute, et
+            vous savez tout de suite si je peux vous aider.
+          </p>
+          <div class="appel-final__btn">
+            <CallButton variant="solid" />
+          </div>
+        </div>
+      </section>
     </main>
 
     <Footer />
@@ -155,41 +277,131 @@ const jsonLd = {
 <style>
   .entree { background: var(--c-paper); }
 
-  .entree__brand { max-width: 44rem; padding-block: var(--space-3xl) 0; }
-  .entree__sommaire {
-    display: flex;
-    flex-direction: column;
-    max-width: 44rem;
-    padding-bottom: var(--space-2xl);
+  /* ---------------------------------------------------------------
+     EN-TÊTE
+     ------------------------------------------------------------ */
+  .entete { padding-top: var(--space-xl); }
+
+  .entete__grid {
+    display: grid;
+    gap: var(--space-lg);
+    justify-items: center;
+    text-align: center;
+  }
+  @media (min-width: 62rem) {
+    .entete__grid {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      justify-items: start;
+      text-align: left;
+    }
   }
 
-  /* ----------------------------------------------------------------------
-     HERO — texte + photo qui se fond dans le papier (aucun cadre)
-     ------------------------------------------------------------------- */
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+  }
+  .brand__feather { height: 108px; width: auto; }
+  .brand__wordmark { margin: 0; line-height: 0; }
+  .brand__wordmark img { height: 74px; width: auto; }
+
+  /* Le bloc marque se rétrécit au contenu : nom et rôle centrés dessous */
+  .entete__marque {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .brand__name {
+    margin-top: var(--space-sm);
+    font-family: var(--font-title);
+    font-size: var(--fs-h3);
+    font-weight: 520;
+  }
+  .brand__role {
+    font-family: var(--font-title);
+    font-size: var(--fs-body);
+    letter-spacing: 0.02em;
+  }
+
+  .entete__contact {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-xs);
+  }
+  .entete__contact li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    max-width: none;
+  }
+  .entete__contact svg { width: 22px; height: 22px; flex-shrink: 0; }
+  .entete__contact a {
+    min-height: var(--tap-min);
+    display: inline-flex;
+    align-items: center;
+    font-weight: 700;
+  }
+
+  .entete__tagline {
+    margin: var(--space-lg) auto 0;
+    padding-inline: var(--space-lg);
+    font-family: var(--font-title);
+    font-style: italic;
+    font-size: var(--fs-lead);
+    text-align: center;
+    max-width: 46ch;
+  }
+
+  /* ---------------------------------------------------------------
+     NAVIGATION
+     ------------------------------------------------------------ */
+  .navbar {
+    margin-top: var(--space-lg);
+    border-block: var(--hairline) solid var(--c-ink);
+  }
+  .navbar__list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 var(--space-lg);
+  }
+  .navbar__list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    padding-inline: var(--space-2xs);
+    text-decoration: none;
+  }
+  .navbar__list a:hover { text-decoration: underline; text-underline-offset: 6px; }
+  /* Filets séparateurs, comme sur la maquette (espacements serrés pour
+     que les 6 entrées tiennent sur une seule ligne) */
+  @media (min-width: 48rem) {
+    .navbar__list { gap: 0; }
+    .navbar__list li + li { border-left: var(--hairline) solid var(--c-sage); }
+    .navbar__list a { padding-inline: var(--space-md); }
+  }
+
+  /* ---------------------------------------------------------------
+     HERO — photo qui se fond dans la bande
+     ------------------------------------------------------------ */
+  .hero-band { padding-block: var(--space-2xl); }
+
   .hero {
     display: grid;
     gap: var(--space-lg);
     align-items: center;
     max-width: 66rem;
-    margin: var(--space-2xl) auto;
-  }
-
-  .hero__text {
-    max-width: 44rem;
     margin-inline: auto;
-    padding-inline: var(--space-lg);
   }
 
-  .hero__title {
-    font-size: var(--fs-h2);
-    font-weight: 540;
-    max-width: 16ch;
-  }
-  .hero__lead {
-    margin-top: var(--space-md);
-    font-size: var(--fs-lead);
-    max-width: 44ch;
-  }
+  .hero__text { padding-inline: var(--space-lg); }
+
+  .hero__title { font-size: var(--fs-h2); font-weight: 540; max-width: 16ch; }
+  .hero__lead { margin-top: var(--space-md); font-size: var(--fs-lead); max-width: 44ch; }
   .hero__signature {
     margin-top: var(--space-md);
     font-family: var(--font-title);
@@ -203,8 +415,7 @@ const jsonLd = {
     margin-top: var(--space-xl);
   }
 
-  /* Le fondu : l'image s'efface progressivement dans le fond papier.
-     Mobile : fondu par le haut (l'image est sous le texte). */
+  /* Mobile : fondu par le haut */
   .hero__media :global(img) {
     width: 100%;
     height: auto;
@@ -213,23 +424,20 @@ const jsonLd = {
   }
 
   @media (min-width: 62rem) {
+    .hero-band { padding-block: 0; }
     .hero {
-      /* Pleine largeur : l'image file jusqu'au bord droit de l'écran,
-         il n'y a donc aucun bord net — elle se fond dans le papier. */
       max-width: none;
-      /* Colonne 1 = gouttière calée sur la grille du sommaire (44rem centré) ;
-         le column-gap fournit le padding, d'où l'alignement exact du texte. */
+      /* Gouttière = marge du conteneur (70rem centré) ; le column-gap fournit
+         le padding, d'où l'alignement exact avec le reste de la page. */
       grid-template-columns:
-        calc((100% - 44rem) / 2)
-        minmax(0, 26rem)
+        max(0px, calc((100% - 70rem) / 2))
+        minmax(0, 28rem)
         1fr;
       column-gap: var(--space-xl);
-      margin-block: var(--space-3xl);
     }
-    .hero__text { grid-column: 2; max-width: none; margin: 0; padding-inline: 0; }
+    .hero__text { grid-column: 2; padding-inline: 0; padding-block: var(--space-2xl); }
     .hero__media { grid-column: 3; }
-    /* Desktop : fondu par la gauche (vers le texte) + haut/bas adoucis,
-       pour qu'aucun bord ne soit net. */
+    /* Fondu par la gauche + haut/bas adoucis : aucun bord net */
     .hero__media :global(img) {
       -webkit-mask-image:
         linear-gradient(to right, transparent 0%, #000 45%),
@@ -242,92 +450,152 @@ const jsonLd = {
     }
   }
 
-  .entree__tete { text-align: center; color: var(--c-ink); }
-
-  /* Le logo de la carte de visite : plume + « Prête-moi ta plume » manuscrit */
-  .brand {
+  /* ---------------------------------------------------------------
+     RÉASSURANCE
+     ------------------------------------------------------------ */
+  .reassurance { border-bottom: var(--hairline) solid var(--c-sage); }
+  .reassurance__list {
+    list-style: none;
+    display: grid;
+    gap: var(--space-lg);
+    padding-block: var(--space-xl);
+    text-align: center;
+  }
+  @media (min-width: 48rem) {
+    .reassurance__list { grid-template-columns: repeat(3, 1fr); }
+    .reassurance__list li + li { border-left: var(--hairline) solid var(--c-sage); }
+  }
+  .reassurance__list li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding-inline: var(--space-md);
+    max-width: none;
+  }
+  .reassurance__icone {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-md);
+    width: 2.75rem;
+    height: 2.75rem;
+    background: var(--c-sage);
+    border-radius: 50%;
   }
-  .brand__feather { height: 132px; width: auto; }
-  .brand__wordmark { margin: 0; line-height: 0; }
-  .brand__wordmark img { height: 92px; width: auto; }
+  .reassurance__icone svg { width: 24px; height: 24px; }
 
-  .brand__name {
-    margin: var(--space-lg) auto 0;
-    font-family: var(--font-title);
-    font-size: var(--fs-h3);
-    font-weight: 520;
-  }
-
-  /* Tagline : décalée, « et partout… » sous la fin de « Azur » */
-  .brand__tagline {
-    display: inline-block;
-    margin-top: var(--space-md);
-    font-family: var(--font-title);
+  /* ---------------------------------------------------------------
+     TITRES ORNÉS — premier mot en Fraunces italique (effet manuscrit)
+     ------------------------------------------------------------ */
+  .titre-orne em {
     font-style: italic;
-    font-size: var(--fs-lead);
-    text-align: left;
-  }
-  .brand__tagline-1 { display: block; }
-  .brand__tagline-2 {
-    display: block;
-    margin-top: var(--space-2xs);
-    padding-left: 4em;             /* décale vers la fin de « Azur » */
-    font-size: var(--fs-body);
+    font-weight: 400;
   }
 
-  /* Invite au-dessus du sommaire */
-  .entree__prompt {
+  /* ---------------------------------------------------------------
+     PRESTATIONS
+     ------------------------------------------------------------ */
+  .presta-grid {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+    margin-top: var(--space-xl);
+  }
+  @media (min-width: 40rem) { .presta-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .presta-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .presta-carte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
     text-align: center;
-    margin-top: var(--space-2xl);
-    font-size: var(--fs-lead);
+    background: var(--c-paper);
+    border: var(--hairline) solid var(--c-sage);
+    border-radius: var(--radius-card);
+    padding: var(--space-xl) var(--space-lg);
+  }
+  .presta-carte__icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    background: var(--c-sage);
+    border-radius: 50%;
+    margin-bottom: var(--space-xs);
+  }
+  .presta-carte__icone svg { width: 28px; height: 28px; }
+  .presta-carte h3 { font-size: var(--fs-h3); }
+  .presta-carte p { font-size: var(--fs-small); max-width: 32ch; }
+
+  .presta-grid__lien { margin-top: var(--space-xl); }
+  .presta-grid__lien a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    font-weight: 700;
   }
 
+  /* ---------------------------------------------------------------
+     POURQUOI ME CHOISIR
+     ------------------------------------------------------------ */
+  .valeurs {
+    display: grid;
+    gap: var(--space-xl);
+    grid-template-columns: 1fr;
+    margin-top: var(--space-xl);
+  }
+  @media (min-width: 48rem) { .valeurs { grid-template-columns: repeat(3, 1fr); } }
+  .valeur {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    text-align: center;
+  }
+  .valeur__icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    background: var(--c-paper);
+    border-radius: 50%;
+  }
+  .valeur__icone svg { width: 28px; height: 28px; }
+  .valeur h3 { font-size: var(--fs-h3); }
+  .valeur p { max-width: 34ch; }
+
+  /* ---------------------------------------------------------------
+     TÉMOIGNAGES
+     ------------------------------------------------------------ */
+  .temoignages {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: 1fr;
+    margin-top: var(--space-xl);
+  }
+  @media (min-width: 48rem) {
+    .temoignages { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  }
+  .temoignage blockquote p {
+    font-family: var(--font-title);
+    font-size: var(--fs-lead);
+    line-height: 1.45;
+  }
+  .temoignage figcaption { margin-top: var(--space-md); font-weight: 700; }
+
+  /* ---------------------------------------------------------------
+     RAPPEL D'APPEL
+     ------------------------------------------------------------ */
+  .appel-final__texte { margin: var(--space-md) auto 0; max-width: 46ch; }
+  .appel-final__btn { margin-top: var(--space-xl); display: flex; justify-content: center; }
+
+  /* Petits écrans : marque un peu plus compacte */
   @media (max-width: 30rem) {
     .brand { gap: var(--space-sm); }
-    .brand__feather { height: 92px; }
-    .brand__wordmark img { height: 62px; }
-    .brand__tagline-2 { padding-left: 2em; }
-  }
-
-  /* Le sommaire — grandes entrées, filets fins, comme une table des matières */
-  .entree__menu {
-    list-style: none;
-    padding: 0;
-    margin-top: var(--space-xl);
-    border-top: var(--hairline) solid var(--c-ink);
-  }
-  .entree__menu a {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-md);
-    flex-wrap: wrap;
-    min-height: var(--tap-min);
-    padding: var(--space-md) var(--space-xs);
-    text-decoration: none;
-    border-bottom: var(--hairline) solid var(--c-ink);
-  }
-  .entree__menu a:hover { background: var(--c-sage); }
-
-  .entree__label {
-    font-family: var(--font-title);
-    font-size: var(--fs-h3);
-    font-weight: 540;
-    line-height: var(--lh-title);
-  }
-  .entree__detail { font-size: var(--fs-small); }
-
-  .entree__appel {
-    margin-top: var(--space-xl);
-    text-align: center;
-  }
-  .entree__appel p { margin-bottom: var(--space-sm); margin-inline: auto; }
-
-  @media (max-width: 40rem) {
-    .entree__detail { display: none; } /* mobile : entrées épurées, libellés seuls */
+    .brand__feather { height: 84px; }
+    .brand__wordmark img { height: 56px; }
   }
 </style>
